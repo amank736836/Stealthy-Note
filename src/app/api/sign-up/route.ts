@@ -65,6 +65,13 @@ export async function POST(request: Request) {
       email,
     });
 
+    const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const verifyCodeExpiry = new Date();
+    verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     if (existingUserByEmail) {
       if (existingUserByEmail.isVerified) {
         return Response.json(
@@ -77,62 +84,16 @@ export async function POST(request: Request) {
           }
         );
       } else {
-        const verifyCode = Math.floor(
-          100000 + Math.random() * 900000
-        ).toString();
+        existingUserByEmail.username = username;
+        existingUserByEmail.password = hashedPassword;
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        existingUserByEmail.verifyCode = verifyCode;
+        existingUserByEmail.verifyCodeExpiry = verifyCodeExpiry;
 
-        const verifyCodeExpiry = new Date();
-
-        verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
-
-        await UserModel.findByIdAndUpdate(existingUserByEmail._id, {
-          username,
-          password: hashedPassword,
-          verifyCode,
-          verifyCodeExpiry,
-        });
-
-        //send verification email
-        const emailResponse = await sendVerificationEmail(
-          email,
-          username,
-          verifyCode
-        );
-
-        if (!emailResponse.success) {
-          return Response.json(
-            {
-              success: false,
-              message: `Failed to send verification email: ${emailResponse.message}`,
-            },
-            {
-              status: 500,
-            }
-          );
-        }
-
-        return Response.json(
-          {
-            success: true,
-            message: "User registered successfully. Please verify your email",
-          },
-          {
-            status: 201,
-          }
-        );
+        await existingUserByEmail.save();
       }
     } else {
-      const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
-
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      const verifyCodeExpiry = new Date();
-
-      verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
-
-      const newUser = await UserModel.create({
+      await UserModel.create({
         username,
         email,
         password: hashedPassword,
@@ -140,36 +101,36 @@ export async function POST(request: Request) {
         verifyCodeExpiry,
         messages: [],
       });
+    }
 
-      //send verification email
-      const emailResponse = await sendVerificationEmail(
-        email,
-        username,
-        verifyCode
-      );
+    //send verification email
+    const emailResponse = await sendVerificationEmail(
+      email,
+      username,
+      verifyCode
+    );
 
-      if (!emailResponse.success) {
-        return Response.json(
-          {
-            success: false,
-            message: `Failed to send verification email: ${emailResponse.message}`,
-          },
-          {
-            status: 500,
-          }
-        );
-      }
-
+    if (!emailResponse.success) {
       return Response.json(
         {
-          success: true,
-          message: "User registered successfully. Please verify your email",
+          success: false,
+          message: `Failed to send verification email: ${emailResponse.message}`,
         },
         {
-          status: 201,
+          status: 500,
         }
       );
     }
+
+    return Response.json(
+      {
+        success: true,
+        message: "User registered successfully. Please verify your email",
+      },
+      {
+        status: 201,
+      }
+    );
   } catch (error) {
     console.error("Error in POST /api/sign-up", error);
     return Response.json(
