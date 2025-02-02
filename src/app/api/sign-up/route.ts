@@ -4,6 +4,19 @@ import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
+
+  if (request.method !== "POST") {
+    return Response.json(
+      {
+        success: false,
+        message: "Method not allowed",
+      },
+      {
+        status: 405,
+      }
+    );
+  }
+
   await dbConnect();
   try {
     const { email, username, password } = await request.json();
