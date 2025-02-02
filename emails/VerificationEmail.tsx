@@ -43,8 +43,11 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Text>
-            Thank you for signing up with us. Please use the following
-            verification code to complete your registration.
+            Thank you for signing up with us. You are just one step away from
+            completing your registration.
+            <br />
+            Please use the following verification code to complete your
+            registration.
           </Text>
         </Row>
         <Row>
@@ -53,9 +56,17 @@ export default function VerificationEmail({
         <Row>
           <Button
             href={`https://localhost:3000/verify?username=${username}&verifyCode=${verifyCode}`}
-            style={{ color: "#61dafb" }}
+            style={{
+              color: "#61dafb",
+              backgroundColor: "#282c34",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+            type="submit"
           >
-            Verify Here
+            Click here to verify
           </Button>
         </Row>
       </Section>
