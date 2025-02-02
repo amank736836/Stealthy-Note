@@ -10,7 +10,7 @@ export async function sendVerificationEmail(
 ): Promise<ApiResponse> {
   try {
     const { data, error } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "StealthNote@resend.dev",
       to: "amankarguwal0@gmail.com",
       subject: "Stealth Node - Verification Code",
       react: VerificationEmail({ username, verifyCode }),
@@ -23,8 +23,6 @@ export async function sendVerificationEmail(
         message: "Failed to send verification email",
       };
     }
-
-    console.log("Verification email sent", data);
 
     return Promise.resolve({
       success: true,
