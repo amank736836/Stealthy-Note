@@ -11,10 +11,12 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
     "@react-email/components": "^0.0.32",
+    "ai": "^4.1.17",
     "bcryptjs": "^2.4.3",
     "mongoose": "^8.9.5",
     "next": "15.1.4",
     "next-auth": "^5.0.0-beta.25",
+    "openai": "^4.82.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^4.1.1",
