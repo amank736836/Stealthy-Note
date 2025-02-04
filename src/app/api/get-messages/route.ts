@@ -62,7 +62,16 @@ export async function GET(request: Request) {
       success: true,
       data: user[0].messages,
     });
-
+  } catch (error) {
     
-  } catch (error) {}
+    return Response.json(
+      {
+        success: false,
+        message: "Unable to get messages",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
