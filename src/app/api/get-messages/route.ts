@@ -63,7 +63,7 @@ export async function GET(request: Request) {
       data: user[0].messages,
     });
   } catch (error) {
-    
+    console.log("Unable to get messages", error);
     return Response.json(
       {
         success: false,
