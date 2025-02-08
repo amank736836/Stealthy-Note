@@ -12,13 +12,13 @@ export const emailValidation = z
   .string()
   .email({ message: "Invalid email format" })
   .min(5, { message: "Email must be at least 5 characters long" })
-  .max(20, { message: "Email must be at most 50 characters long" })
+  .max(50, { message: "Email must be at most 50 characters long" })
   .toLowerCase();
 
 export const passwordValidation = z
   .string()
   .min(6, { message: "Password must be at least 6 characters long" })
-  .max(20, { message: "Password must be at most 50 characters long" });
+  .max(20, { message: "Password must be at most 20 characters long" });
 
 export const signUpSchema = z.object({
   username: usernameValidation,
