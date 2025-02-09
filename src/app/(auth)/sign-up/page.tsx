@@ -1,5 +1,6 @@
 "use client";
 
+import { signUpSchema } from "@/backend/schemas/signUpSchema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,7 +12,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { signUpSchema } from "@/backend/schemas/signUpSchema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
