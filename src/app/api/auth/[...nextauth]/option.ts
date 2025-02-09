@@ -1,10 +1,10 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
-import { NextAuthConfig } from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-export const authOptions: NextAuthConfig = {
+const authOptions: NextAuthConfig = {
   providers: [
     Credentials({
       id: "credentials",
@@ -37,6 +37,12 @@ export const authOptions: NextAuthConfig = {
 
           if (!user.isVerified) {
             throw new Error("Please verify your account before logging in");
+          }
+
+          if (user.verifyCodeExpiry < new Date()) {
+            throw new Error(
+              "Verification code expired. Please request a new one"
+            );
           }
 
           const isValid = await bcrypt.compare(
@@ -84,3 +90,5 @@ export const authOptions: NextAuthConfig = {
   },
   secret: process.env.AUTH_SECRET,
 };
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
