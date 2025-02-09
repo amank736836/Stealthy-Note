@@ -7,8 +7,9 @@ import { User } from "next-auth";
 export async function GET(request: Request) {
   await dbConnect();
   const session = await auth();
+  const user: User = session?.user as User;
 
-  if (!session || !session.user) {
+  if (!session || !user) {
     return Response.json(
       {
         success: false,
@@ -19,8 +20,6 @@ export async function GET(request: Request) {
       }
     );
   }
-
-  const user: User = session?.user as User;
 
   const userId = new mongoose.Types.ObjectId(user.id);
 
