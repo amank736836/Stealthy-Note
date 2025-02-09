@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast, useToast } from "@/hooks/use-toast";
-import { verifySchema } from "@/schemas/verifySchema";
+import { verifySchema } from "@/backend/schemas/verifySchema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
