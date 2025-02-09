@@ -1,6 +1,6 @@
 import { auth } from "@/app/api/auth/[...nextauth]/option";
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import dbConnect from "@/backend/lib/dbConnect";
+import UserModel from "@/backend/model/User";
 import mongoose from "mongoose";
 import { User } from "next-auth";
 
