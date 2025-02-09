@@ -51,12 +51,14 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
         toast({
           title: "Error deleting message",
           description: response.data.message,
+          variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error deleting message",
         description: `An error occurred while deleting the message, ${error}`,
+        variant: "destructive",
       });
     }
   };
