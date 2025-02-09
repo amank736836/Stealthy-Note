@@ -1,5 +1,6 @@
 "use client";
 
+import { verifySchema } from "@/backend/schemas/verifySchema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,8 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast, useToast } from "@/hooks/use-toast";
-import { verifySchema } from "@/backend/schemas/verifySchema";
+import { toast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
@@ -24,7 +24,6 @@ function VerifyAccount() {
   const router = useRouter();
 
   const param = useParams<{ username: string }>();
-
 
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
