@@ -1,8 +1,8 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/backend/lib/dbConnect";
 import { User } from "next-auth";
 
 import { auth } from "@/app/api/auth/[...nextauth]/option";
-import UserModel from "@/model/User";
+import UserModel from "@/backend/model/User";
 
 export async function POST(request: Request) {
   await dbConnect();
