@@ -44,7 +44,7 @@ export async function GET(request: Request) {
       },
     ]);
 
-    if (!user || user.length === 0) {
+    if (!user) {
       return Response.json(
         {
           success: false,
@@ -54,6 +54,13 @@ export async function GET(request: Request) {
           status: 404,
         }
       );
+    }
+
+    if (user.length === 0) {
+      return Response.json({
+        success: true,
+        messages: [],
+      });
     }
 
     return Response.json({
