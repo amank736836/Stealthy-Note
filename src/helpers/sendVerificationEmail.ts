@@ -1,7 +1,7 @@
 import { resend } from "@/lib/resend";
+import { ApiResponse } from "@/types/ApiResponse";
 import VerificationEmail from "../../emails/VerificationEmail";
 VerificationEmail;
-import { ApiResponse } from "@/types/ApiResponse";
 
 export async function sendVerificationEmail(
   email: string,
@@ -9,7 +9,7 @@ export async function sendVerificationEmail(
   verifyCode: string
 ): Promise<ApiResponse> {
   try {
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: "StealthNote@resend.dev",
       to: "amankarguwal0@gmail.com",
       subject: "Stealth Node - Verification Code",
