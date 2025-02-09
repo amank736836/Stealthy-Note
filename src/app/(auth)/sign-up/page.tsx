@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { useDebounceCallback } from "usehooks-ts";
 import * as z from "zod";
 
-function page() {
+function SignUp() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
 
@@ -167,18 +167,18 @@ function page() {
               )}
             />
 
-          <div className="flex justify-center w-full">
-          <Button type="submit" disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
-                </>
-              ) : (
-                "Sign Up"
-              )}
-            </Button>
-          </div>
+            <div className="flex justify-center w-full">
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
 
@@ -195,4 +195,4 @@ function page() {
   );
 }
 
-export default page;
+export default SignUp;
