@@ -10,7 +10,7 @@ const authOptions: NextAuthConfig = {
       id: "credentials",
       name: "Credentials",
       credentials: {
-        username: {
+        identifier: {
           label: "Username or Email",
           type: "text",
           placeholder: "Username or Email",
@@ -24,10 +24,12 @@ const authOptions: NextAuthConfig = {
       async authorize(credentials): Promise<any> {
         await dbConnect();
         try {
+          console.log(credentials);
+
           const user = await UserModel.findOne({
             $or: [
-              { email: credentials.username },
-              { username: credentials.username },
+              { email: credentials.identifier },
+              { username: credentials.identifier },
             ],
           });
 
@@ -36,13 +38,13 @@ const authOptions: NextAuthConfig = {
           }
 
           if (!user.isVerified) {
-            throw new Error("Please verify your account before logging in");
-          }
-
-          if (user.verifyCodeExpiry < new Date()) {
-            throw new Error(
-              "Verification code expired. Please request a new one"
-            );
+            if (user.verifyCodeExpiry < new Date()) {
+              throw new Error(
+                "Verification code expired. Please request a new one"
+              );
+            } else {
+              throw new Error("Please verify your account before logging in");
+            }
           }
 
           const isValid = await bcrypt.compare(
