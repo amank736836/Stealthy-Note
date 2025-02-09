@@ -58,7 +58,7 @@ export async function GET(request: Request) {
 
     return Response.json({
       success: true,
-      data: user[0].messages,
+      messages: user[0].messages,
     });
   } catch (error) {
     console.log("Unable to get messages", error);
