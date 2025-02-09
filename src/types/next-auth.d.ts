@@ -1,6 +1,5 @@
 import "next-auth";
 import { DefaultSession } from "next-auth";
-import { Inter_Tight } from "next/font/google";
 
 declare module "next-auth" {
   interface User {
