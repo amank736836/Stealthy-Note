@@ -31,15 +31,30 @@ export async function POST(request: Request) {
     }
 
     const decodedUsername = decodeURIComponent(username);
+
     const user = await UserModel.findOne({
       username: decodedUsername,
     });
+
+    console.log("User", user);
 
     if (!user) {
       return Response.json(
         {
           success: false,
           message: "Invalid Username",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (user.isVerified) {
+      return Response.json(
+        {
+          success: false,
+          message: "User is already verified",
         },
         {
           status: 400,
@@ -86,7 +101,7 @@ export async function POST(request: Request) {
       );
     }
   } catch (error) {
-    console.error("ErroR Verifying User", error);
+    console.error("Error Verifying User", error);
     return Response.json(
       {
         success: false,
