@@ -39,14 +39,15 @@ function Dashboard() {
     },
   });
 
-  const { register, watch, setValue } = form;
+  const { register, handleSubmit, watch, setValue } = form;
 
-  const acceptMessages = watch("acceptMessages");
+  const acceptMessages: boolean = watch("acceptMessages");
 
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
+
       setValue(
         "acceptMessages",
         response.data.isAcceptingMessage || !acceptMessages
@@ -68,7 +69,6 @@ function Dashboard() {
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
       setIsLoading(true);
-      setIsSwitchLoading(true);
       try {
         const response = await axios.get<ApiResponse>("/api/get-messages");
         setMessages(response.data.messages || []);
@@ -82,7 +82,6 @@ function Dashboard() {
         });
       } finally {
         setIsLoading(false);
-        setIsSwitchLoading(false);
       }
     },
     [setIsLoading, setMessages]
@@ -169,6 +168,7 @@ function Dashboard() {
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
+          onSubmit={handleSubmit(handleSwitchChange)}
         />
         <span className="ml-2">
           Accept Messages: {acceptMessages ? "Enabled" : "Disabled"}
