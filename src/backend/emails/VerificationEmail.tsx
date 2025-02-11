@@ -55,7 +55,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Button
-            href={`https://localhost:3000/verify?username=${username}&verifyCode=${verifyCode}`}
+            href={`http://localhost:3000/verify/${username}/${verifyCode}`}
             style={{
               color: "#61dafb",
               backgroundColor: "#282c34",
