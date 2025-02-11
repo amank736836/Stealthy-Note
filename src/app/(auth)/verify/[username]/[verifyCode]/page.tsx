@@ -44,7 +44,7 @@ function VerifyAccount() {
         description: response.data.message,
       });
 
-      router.replace("../sign-in");
+      router.replace("../../sign-in");
     } catch (error) {
       console.error("Error in verifying user", error);
 
@@ -53,20 +53,24 @@ function VerifyAccount() {
       let errorMessage =
         axiosError.response?.data.message || "Error verifying user";
 
+      if (
+        errorMessage ===
+        "Verification Code has expired, please signup again to get a new code"
+      ) {
+        router.replace("../../sign-up");
+      } else if (errorMessage === "User is already verified") {
+        router.replace("../../sign-in");
+      } else {
+        router.replace("../../sign-up");
+      }
+
+      console.log("working");
+
       toast({
         title: "Sign Up Failed",
         description: errorMessage,
         variant: "destructive",
       });
-
-      if (
-        errorMessage ===
-        "Verification Code has expired, please signup again to get a new code"
-      ) {
-        router.replace("../sign-up");
-      } else if (errorMessage === "User is already verified") {
-        router.replace("../sign-in");
-      }
     } finally {
       form.reset();
       setLoading(false);
