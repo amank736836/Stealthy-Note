@@ -2,16 +2,16 @@
   {
     "title": "Message from the CEO",
     "content": "Welcome to our new website. We are excited to share our new products with you. We hope you enjoy your visit.",
-    "received": "10 minutes ago"
+    "createdAt": "2020-01-01T12:00:00Z"
   },
   {
     "title": "New Product Launch",
     "content": "We are excited to announce the launch of our new product line. We hope you enjoy our new products.",
-    "received": "1 hour ago"
+    "createdAt": "2020-01-02T12:00:00Z"
   },
   {
     "title": "Holiday Sale",
     "content": "Don't miss out on our holiday sale. Get great deals on all of our products. Sale ends soon.",
-    "received": "1 day ago"
+    "createdAt": "2020-01-03T12:00:00Z"
   }
 ]
