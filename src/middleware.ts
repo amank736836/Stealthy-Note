@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
       url.pathname.startsWith("/verify") ||
       url.pathname === "/")
   ) {
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   if (!token && url.pathname.startsWith("/dashboard")) {
