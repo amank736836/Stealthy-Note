@@ -41,7 +41,7 @@ function VerifyAccount() {
 
       toast({
         title: "Success",
-        description: response.data.message,
+        description: response.data.message || "User verified successfully",
       });
 
       router.replace("../sign-in");
@@ -51,10 +51,11 @@ function VerifyAccount() {
       const axiosError = error as AxiosError<ApiResponse>;
 
       let errorMessage =
-        axiosError.response?.data.message || "Error verifying user";
+        axiosError.response?.data.message ||
+        "Some error occurred. Please try again later";
 
       toast({
-        title: "Sign Up Failed",
+        title: "Verification Failed",
         description: errorMessage,
         variant: "destructive",
       });
