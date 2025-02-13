@@ -18,14 +18,20 @@ function Navbar() {
         </a>
         {session ? (
           <>
-            <span className="mr-4">Welcome, {user.username}</span>
-            <Button className="w-full md:w-auto" onClick={() => signOut()}>
+            <span className="mr-4">Welcome, {user.username || user.email}</span>
+            <Button
+              className="w-full  md:w-auto bg-slate-100 text-black"
+              variant="outline"
+              onClick={() => signOut()}
+            >
               Logout
             </Button>
           </>
         ) : (
           <Link href="/sign-in">
-            <Button className="w-full md:w-auto">Login</Button>
+            <Button className="w-full md:w-auto bg-slate-100 text-black">
+              Login
+            </Button>
           </Link>
         )}
       </div>
