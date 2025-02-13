@@ -4,11 +4,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
+import { Message } from "@/backend/model/User";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,12 +20,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "./ui/button";
-import { X } from "lucide-react";
-import { Message } from "@/backend/model/User";
 import { useToast } from "@/hooks/use-toast";
-import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
+import axios, { AxiosError } from "axios";
+import { X } from "lucide-react";
+import { Button } from "./ui/button";
 
 type MessageCardProps = {
   message: Message;
@@ -38,7 +37,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   const handleDeleteConfirm = async () => {
     try {
       const response = await axios.delete<ApiResponse>(
-        `/api/delete-message/${message.id}`
+        `/api/delete-message/${message._id}`
       );
 
       if (response.data.success) {
@@ -55,42 +54,51 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
         });
       }
     } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title: "Error deleting message",
-        description: `An error occurred while deleting the message, ${error}`,
+        description:
+          axiosError.response?.data.message ??
+          `An error occurred while deleting the message, ${error}`,
         variant: "destructive",
       });
     }
   };
 
   return (
-    <Card>
+    <Card className="card-bordered">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">
-              <X className="w-5 h-5" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDeleteConfirm}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div className="flex justify-between items-center">
+          <CardTitle>{message.content}</CardTitle>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">
+                <X className="w-5 h-5" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteConfirm}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
 
-        <CardDescription>Card Description</CardDescription>
+        <div className="text-sm">
+          {new Date(message.createdAt).toLocaleString()}
+        </div>
+
+        <CardDescription></CardDescription>
       </CardHeader>
       <CardContent></CardContent>
     </Card>
