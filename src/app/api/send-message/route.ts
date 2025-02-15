@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("Unable to send message", error);
+    console.error("Unable to send message", error);
     return Response.json(
       {
         success: false,
