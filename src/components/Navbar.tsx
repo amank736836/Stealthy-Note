@@ -13,9 +13,9 @@ function Navbar() {
   return (
     <nav className="p-4 md:p-6 shadow-md bg-white dark:bg-gray-900 text-black dark:text-white">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <a href="/" className="text-xl font-bold mb-4 md:mb-0">
+        <Link href="/" className="text-xl font-bold mb-4 md:mb-0">
           Stealth Note
-        </a>
+        </Link>
 
         {session ? (
           <div className="flex items-center space-x-4">
@@ -31,9 +31,7 @@ function Navbar() {
             </Button>
           </div>
         ) : (
-          <div
-          className="flex items-center space-x-4"
-          >
+          <div className="flex items-center space-x-4">
             <ThemeToggle />
 
             <Link href="/sign-in">
