@@ -11,7 +11,7 @@ export async function sendVerificationEmail(
   try {
     const { error } = await resend.emails.send({
       from: "StealthNote@resend.dev",
-      to: "amankarguwal0@gmail.com",
+      to: "stealthnote@outlook.com",
       subject: "Stealth Node - Verification Code",
       react: VerificationEmail({ username, verifyCode }),
     });
