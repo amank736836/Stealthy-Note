@@ -9,13 +9,9 @@ export type Params = {
 
 export async function DELETE(
   request: Request,
-  {
-    params,
-  }: {
-    params: Params;
-  }
+  params: { params: { messageId: string } }
 ) {
-  const messageId = await params.messageId;
+  const messageId = await params.params.messageId;
 
   await dbConnect();
 
