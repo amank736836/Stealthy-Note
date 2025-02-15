@@ -32,7 +32,6 @@ export async function DELETE(
     );
   }
 
-
   try {
     const updatedResult = await UserModel.updateOne(
       {
@@ -46,8 +45,6 @@ export async function DELETE(
         },
       }
     );
-
-    console.log(updatedResult);
 
     if (updatedResult.modifiedCount === 0) {
       return Response.json(
