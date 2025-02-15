@@ -5,15 +5,10 @@ import { AuthError, User } from "next-auth";
 
 export async function DELETE(
   request: Request,
-  {
-    params,
-  }: {
-    params: {
-      messageId: string;
-    };
-  }
+  { params }: { params: Promise<{ messageId: string }> }
 ) {
-  const messageId = await params.messageId;
+  const { messageId } = await params;
+
 
   await dbConnect();
 
