@@ -21,13 +21,13 @@ export async function GET(request: Request) {
     );
   }
 
-  const userId = new mongoose.Types.ObjectId(user.id);
+  const userId = new mongoose.Types.ObjectId(user._id);
 
   try {
-    const user = await UserModel.aggregate([
+    const userSpecificMessage = await UserModel.aggregate([
       {
         $match: {
-          id: userId,
+          _id: userId,
         },
       },
       {
@@ -44,7 +44,9 @@ export async function GET(request: Request) {
       },
     ]);
 
-    if (!user) {
+    console.log("User", userSpecificMessage);
+
+    if (!userSpecificMessage) {
       return Response.json(
         {
           success: false,
@@ -56,17 +58,24 @@ export async function GET(request: Request) {
       );
     }
 
-    if (user.length === 0) {
+    if (userSpecificMessage.length === 0) {
       return Response.json({
         success: true,
         messages: [],
       });
     }
 
-    return Response.json({
-      success: true,
-      messages: user[0].messages,
-    });
+    console.log("Messages", userSpecificMessage[0].messages);
+
+    return Response.json(
+      {
+        success: true,
+        messages: userSpecificMessage[0].messages,
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log("Unable to get messages", error);
     return Response.json(
