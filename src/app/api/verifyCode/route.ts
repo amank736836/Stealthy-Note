@@ -36,8 +36,6 @@ export async function POST(request: Request) {
       username: decodedUsername,
     });
 
-    console.log("User", user);
-
     if (!user) {
       return Response.json(
         {
