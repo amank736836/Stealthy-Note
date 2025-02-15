@@ -47,7 +47,6 @@ function Dashboard() {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
-
       setAcceptMessages(response.data.isAcceptingMessage || false);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
@@ -63,26 +62,23 @@ function Dashboard() {
     }
   }, [setValue]);
 
-  const fetchMessages = useCallback(
-    async (refresh: boolean = false) => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get<ApiResponse>("/api/get-messages");
-        setMessages(response.data.messages || []);
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
-        toast({
-          title: "Error fetching messages",
-          description:
-            axiosError.response?.data.message || "Failed to fetch messages",
-          variant: "destructive",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [setIsLoading, setMessages]
-  );
+  const fetchMessages = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get<ApiResponse>("/api/get-messages");
+      setMessages(response.data.messages || []);
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: "Error fetching messages",
+        description:
+          axiosError.response?.data.message || "Failed to fetch messages",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
@@ -90,15 +86,14 @@ function Dashboard() {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
         isAcceptingMessage: !acceptMessages,
       });
-
       setAcceptMessages(response.data.isAcceptingMessage || !acceptMessages);
-
       toast({
         title: response.data.message || "Accept messages updated",
         description: "Your accept messages settings have been updated",
       });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
+
       toast({
         title: "Error updating accept messages",
         description:
@@ -115,7 +110,6 @@ function Dashboard() {
     if (!session || !session.user) {
       return;
     }
-
     fetchMessages();
     fetchAcceptMessage();
   }, [session, setValue]);
@@ -125,9 +119,7 @@ function Dashboard() {
   }
 
   const { username } = session.user as User;
-
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
-
   const profileUrl = `${baseUrl}/u/${username}`;
 
   const copyToClipboard = () => {
@@ -139,45 +131,43 @@ function Dashboard() {
   };
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white dark:bg-gray-900 text-black dark:text-white rounded w-full max-w-6xl">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
       <div className="mb-4">
         <h2 className="text-lg font-semibold mb-2">
           Copy your Unique Profile URL
         </h2>
         <div className="flex items-center">
+          <label htmlFor="profileUrl" className="sr-only">
+            Profile URL
+          </label>
           <input
-            placeholder="Profile URL"
+            id="profileUrl"
             type="text"
             value={profileUrl}
             disabled
-            className="input , input-bordered w-full mr-2 p-2"
+            placeholder="Profile URL"
+            className="input input-bordered w-full mr-2 p-2 bg-gray-100 dark:bg-gray-800"
           />
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>
       </div>
-
-      <div className="mb-4">
+      <div className="mb-4 flex items-center">
         <Switch
           {...register("acceptMessages")}
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
-          onSubmit={handleSubmit(handleSwitchChange)}
         />
         <span className="ml-2">
           Accept Messages: {acceptMessages ? "Enabled" : "Disabled"}
         </span>
       </div>
-      <Separator />
-
+      <Separator className="dark:bg-gray-700" />
       <Button
         className="mt-4"
         variant="outline"
-        onClick={(e) => {
-          e.preventDefault();
-          fetchMessages(true);
-        }}
+        onClick={() => fetchMessages()}
       >
         {isLoading ? (
           <Loader2 className="animate-spin h-4 w-4" />
@@ -185,12 +175,11 @@ function Dashboard() {
           <RefreshCcw className="h-4 w-4" />
         )}
       </Button>
-
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message) => (
             <MessageCard
-              key={message._id as string}
+              key={message._id}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />
