@@ -113,10 +113,15 @@ function SignIn() {
             />
 
             <div className="flex justify-center w-full">
-              <Button type="submit" disabled={isSubmitting} className="dark:bg-gray-700 dark:text-white">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="dark:bg-gray-700 dark:text-white"
+              >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
                   </>
                 ) : (
                   "Sign In"
@@ -128,8 +133,11 @@ function SignIn() {
 
         <div className="text-center mt-4">
           <p className="text-gray-700 dark:text-gray-300">
-            Don't have an account?{" "}
-            <Link href="/sign-up" className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/sign-up"
+              className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+            >
               Sign Up
             </Link>
           </p>
