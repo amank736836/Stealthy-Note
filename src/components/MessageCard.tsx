@@ -40,6 +40,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
         `/api/delete-message/${message._id}`
       );
 
+
       if (response.data.success) {
         onMessageDelete(message._id);
         toast({
