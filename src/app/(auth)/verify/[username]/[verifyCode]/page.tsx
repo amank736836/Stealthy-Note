@@ -22,7 +22,6 @@ import * as z from "zod";
 
 function VerifyAccount() {
   const router = useRouter();
-
   const param = useParams<{ username: string; verifyCode: string }>();
 
   const form = useForm<z.infer<typeof verifySchema>>({
@@ -49,7 +48,6 @@ function VerifyAccount() {
       console.error("Error in verifying user", error);
 
       const axiosError = error as AxiosError<ApiResponse>;
-
       let errorMessage =
         axiosError.response?.data.message || "Error verifying user";
 
@@ -82,8 +80,8 @@ function VerifyAccount() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Verify Your Account
@@ -99,13 +97,23 @@ function VerifyAccount() {
                 <FormItem>
                   <FormLabel>Verification Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="Verification Code" {...field} />
+                    <Input
+                      placeholder="Verification Code"
+                      className="bg-gray-100 dark:bg-gray-700 dark:text-white"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
+              disabled={loading}
+            >
+              {loading ? "Verifying..." : "Submit"}
+            </Button>
           </form>
         </Form>
       </div>
