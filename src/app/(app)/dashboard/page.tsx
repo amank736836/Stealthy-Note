@@ -39,7 +39,7 @@ function Dashboard() {
     },
   });
 
-  const { register, handleSubmit, setValue } = form;
+  const { register, setValue } = form;
 
   const [acceptMessages, setAcceptMessages] = useState<boolean>(false);
 
@@ -78,7 +78,7 @@ function Dashboard() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [setValue]);
 
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
@@ -112,7 +112,7 @@ function Dashboard() {
     }
     fetchMessages();
     fetchAcceptMessage();
-  }, [session, setValue]);
+  }, [session, setValue, fetchMessages, fetchAcceptMessage]);
 
   if (!session || !session.user) {
     return <div>Please sign in to view this page</div>;
