@@ -22,7 +22,6 @@ import * as z from "zod";
 
 function VerifyAccount() {
   const router = useRouter();
-
   const param = useParams<{ username: string }>();
 
   const form = useForm<z.infer<typeof verifySchema>>({
@@ -75,13 +74,15 @@ function VerifyAccount() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-gray-900 dark:text-white">
             Verify Your Account
           </h1>
-          <p className="mb-4">Enter the verification code sent to your email</p>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Enter the verification code sent to your email
+          </p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -90,15 +91,27 @@ function VerifyAccount() {
               name="verifyCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Verification Code</FormLabel>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Verification Code
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Verification Code" {...field} />
+                    <Input
+                      placeholder="Verification Code"
+                      {...field}
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
+              disabled={loading}
+            >
+              {loading ? "Verifying..." : "Submit"}
+            </Button>
           </form>
         </Form>
       </div>
