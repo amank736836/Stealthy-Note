@@ -1,3 +1,5 @@
+"use client";
+
 import { messageSchema } from "@/backend/schemas/messageSchema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -64,7 +66,7 @@ export default function SendMessage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post<ApiResponse>("api/send-message", {
+      const response = await axios.post<ApiResponse>("../api/send-message", {
         ...data,
         username,
       });
@@ -116,7 +118,9 @@ export default function SendMessage() {
             control={form.control}
             name="content"
             render={({ field }) => (
-              <FormItem>
+              <FormItem
+              className="flex flex-col"
+              >
                 <FormLabel>Send Anonymous Message to @{username}</FormLabel>
                 <FormControl>
                   <textarea
