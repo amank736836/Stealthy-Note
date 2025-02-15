@@ -1,17 +1,101 @@
-[
-  {
-    "title": "Message from the CEO",
-    "content": "Welcome to our new website. We are excited to share our new products with you. We hope you enjoy your visit.",
-    "createdAt": "2020-01-01T12:00:00Z"
-  },
-  {
-    "title": "New Product Launch",
-    "content": "We are excited to announce the launch of our new product line. We hope you enjoy our new products.",
-    "createdAt": "2020-01-02T12:00:00Z"
-  },
-  {
-    "title": "Holiday Sale",
-    "content": "Don't miss out on our holiday sale. Get great deals on all of our products. Sale ends soon.",
-    "createdAt": "2020-01-03T12:00:00Z"
-  }
-]
+{
+  "messageFirstRow": [
+    {
+      "title": "Message from the CEO",
+      "content": "Welcome to our new website. We are excited to share our new products with you. We hope you enjoy your visit.",
+      "createdAt": "2020-01-01T12:00:00Z"
+    },
+    {
+      "title": "Exciting New Partnership",
+      "content": "We are thrilled to announce our new partnership with a leading brand to bring you exclusive products.",
+      "createdAt": "2020-01-02T12:00:00Z"
+    },
+    {
+      "title": "Limited Edition Collection",
+      "content": "Check out our limited edition collection available for a short time only.",
+      "createdAt": "2020-01-03T12:00:00Z"
+    },
+    {
+      "title": "Special Discount for Members",
+      "content": "Exclusive discounts are now available for our premium members. Sign up today!",
+      "createdAt": "2020-01-04T12:00:00Z"
+    },
+    {
+      "title": "Upcoming Event",
+      "content": "Join us for an exclusive online event where we showcase our newest releases.",
+      "createdAt": "2020-01-05T12:00:00Z"
+    },
+    {
+      "title": "Customer Success Stories",
+      "content": "Read inspiring stories from our customers about how our products have helped them.",
+      "createdAt": "2020-01-06T12:00:00Z"
+    },
+    {
+      "title": "Behind the Scenes",
+      "content": "Get a sneak peek into how we design and manufacture our products.",
+      "createdAt": "2020-01-07T12:00:00Z"
+    },
+    {
+      "title": "Eco-Friendly Packaging",
+      "content": "We are committed to sustainability. Our new packaging is now 100% recyclable.",
+      "createdAt": "2020-01-08T12:00:00Z"
+    },
+    {
+      "title": "Tech Innovations",
+      "content": "Discover the latest technology enhancements in our products that make your life easier.",
+      "createdAt": "2020-01-09T12:00:00Z"
+    },
+    {
+      "title": "User Tips & Tricks",
+      "content": "Learn the best ways to get the most out of your favorite products.",
+      "createdAt": "2020-01-10T12:00:00Z"
+    }
+  ],
+  "messageSecondRow": [
+    {
+      "title": "New Product Showcase",
+      "content": "Discover our latest product collection featuring innovative designs.",
+      "createdAt": "2020-01-11T12:00:00Z"
+    },
+    {
+      "title": "Flash Sale Alert",
+      "content": "A surprise flash sale is happening soon. Stay tuned for amazing deals!",
+      "createdAt": "2020-01-12T12:00:00Z"
+    },
+    {
+      "title": "User Reviews Spotlight",
+      "content": "Check out what our customers are saying about their favorite products.",
+      "createdAt": "2020-01-13T12:00:00Z"
+    },
+    {
+      "title": "Gift Guide",
+      "content": "Need gift ideas? Our latest guide will help you find the perfect present for any occasion.",
+      "createdAt": "2020-01-14T12:00:00Z"
+    },
+    {
+      "title": "Store Expansion",
+      "content": "We are opening more stores in new locations. Find out if we're coming to your area.",
+      "createdAt": "2020-01-15T12:00:00Z"
+    },
+    {
+      "title": "Loyalty Program Rewards",
+      "content": "Earn points and redeem rewards with our new loyalty program.",
+      "createdAt": "2020-01-16T12:00:00Z"
+    },
+    {
+      "title": "Sneak Peek: Upcoming Releases",
+      "content": "Be the first to see what’s coming next in our product lineup.",
+      "createdAt": "2020-01-17T12:00:00Z"
+    },
+    {
+      "title": "Customer Support Improvements",
+      "content": "We've enhanced our customer service to provide even better support.",
+      "createdAt": "2020-01-18T12:00:00Z"
+    },
+    {
+      "title": "Subscription Plans",
+      "content": "Subscribe to our new plans and get exclusive benefits and discounts.",
+      "createdAt": "2020-01-19T12:00:00Z"
+    }
+  ]
+}
