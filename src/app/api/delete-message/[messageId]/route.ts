@@ -3,14 +3,17 @@ import dbConnect from "@/backend/lib/dbConnect";
 import UserModel from "@/backend/model/User";
 import { AuthError, User } from "next-auth";
 
-export type Params = {
-  params: {
-    messageId: string;
-  };
-};
-
-export async function DELETE(request: Request, { params }: { params: Params }) {
-  const messageId = await params.params.messageId;
+export async function DELETE(
+  request: Request,
+  {
+    params,
+  }: {
+    params: {
+      messageId: string;
+    };
+  }
+) {
+  const messageId = await params.messageId;
 
   await dbConnect();
 
