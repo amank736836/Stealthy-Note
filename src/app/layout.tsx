@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "StealthyNote",
+  title: "Stealthy Note",
   description: "A stealthy note-taking app",
 };
 
