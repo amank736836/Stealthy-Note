@@ -62,7 +62,7 @@ function SignIn() {
       <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-gray-900 dark:text-white">
-            Join Stealth Note 🥷📝
+            Join Stealthy Note 🥷📝
           </h1>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
             Sign In to start stealing notes from your friends
