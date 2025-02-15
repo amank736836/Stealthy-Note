@@ -9,7 +9,7 @@ export type Params = {
   };
 };
 
-export async function DELETE(request: Request, params: Params) {
+export async function DELETE(request: Request, { params }: { params: Params }) {
   const messageId = await params.params.messageId;
 
   await dbConnect();
