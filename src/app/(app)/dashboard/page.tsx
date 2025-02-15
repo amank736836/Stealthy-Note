@@ -39,19 +39,16 @@ function Dashboard() {
     },
   });
 
-  const { register, handleSubmit, watch, setValue } = form;
+  const { register, handleSubmit, setValue } = form;
 
-  const acceptMessages: boolean = watch("acceptMessages");
+  const [acceptMessages, setAcceptMessages] = useState<boolean>(false);
 
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
 
-      setValue(
-        "acceptMessages",
-        response.data.isAcceptingMessage || !acceptMessages
-      );
+      setAcceptMessages(response.data.isAcceptingMessage || false);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -87,25 +84,14 @@ function Dashboard() {
     [setIsLoading, setMessages]
   );
 
-  useEffect(() => {
-    if (!session || !session.user) {
-      return;
-    }
-
-    fetchMessages();
-    fetchAcceptMessage();
-  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
-
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
         isAcceptingMessage: !acceptMessages,
       });
-      setValue(
-        "acceptMessages",
-        response.data.isAcceptingMessage || !acceptMessages
-      );
+
+      setAcceptMessages(response.data.isAcceptingMessage || !acceptMessages);
 
       toast({
         title: response.data.message || "Accept messages updated",
@@ -124,6 +110,15 @@ function Dashboard() {
       setIsSwitchLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!session || !session.user) {
+      return;
+    }
+
+    fetchMessages();
+    fetchAcceptMessage();
+  }, [session, setValue]);
 
   if (!session || !session.user) {
     return <div>Please sign in to view this page</div>;
