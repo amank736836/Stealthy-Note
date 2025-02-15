@@ -13,7 +13,7 @@ export async function DELETE(
     };
   }
 ) {
-  const messageId = params.messageId;
+  const messageId = await params.messageId;
 
   await dbConnect();
 
@@ -32,19 +32,22 @@ export async function DELETE(
     );
   }
 
+
   try {
     const updatedResult = await UserModel.updateOne(
       {
-        _id: user.id,
+        _id: user._id,
       },
       {
         $pull: {
           messages: {
-            id: messageId,
+            _id: messageId,
           },
         },
       }
     );
+
+    console.log(updatedResult);
 
     if (updatedResult.modifiedCount === 0) {
       return Response.json(
