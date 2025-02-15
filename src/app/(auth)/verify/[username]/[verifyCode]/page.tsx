@@ -64,8 +64,6 @@ function VerifyAccount() {
         router.replace("../../sign-up");
       }
 
-      console.log("working");
-
       toast({
         title: "Sign Up Failed",
         description: errorMessage,
