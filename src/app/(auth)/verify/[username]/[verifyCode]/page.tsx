@@ -48,7 +48,7 @@ function VerifyAccount() {
       console.error("Error in verifying user", error);
 
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage =
+      const errorMessage =
         axiosError.response?.data.message || "Error verifying user";
 
       if (
