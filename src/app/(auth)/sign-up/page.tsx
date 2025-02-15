@@ -26,13 +26,9 @@ import * as z from "zod";
 function SignUp() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
-
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const setDebouncedUsername = useDebounceCallback(setUsername, 500);
-
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -53,7 +49,6 @@ function SignUp() {
           const response = await axios.get(
             `/api/check-username-unique?username=${username}`
           );
-
           setUsernameMessage(response.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
@@ -102,13 +97,13 @@ function SignUp() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-gray-900 dark:text-white">
             Join Stealth Note 🥷📝
           </h1>
-          <p className="mb-4">
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
             Sign up to start stealing notes from your friends
           </p>
         </div>
@@ -119,21 +114,30 @@ function SignUp() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Username
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Username"
                       {...field}
                       type="text"
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       onChange={(e) => {
                         field.onChange(e);
                         setDebouncedUsername(e.target.value);
                       }}
                     />
                   </FormControl>
-                  {isCheckingUsername && <Loader2 className="animate-spin" />}
+                  {isCheckingUsername && (
+                    <Loader2 className="animate-spin text-gray-500 dark:text-gray-400" />
+                  )}
                   <p
-                    className={`text-sm ${usernameMessage === "Username is unique" ? "text-green-500" : "text-red-500"}`}
+                    className={`text-sm ${
+                      usernameMessage === "Username is unique"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
                   >
                     {usernameMessage}
                   </p>
@@ -146,9 +150,16 @@ function SignUp() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Email
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} type="email" />
+                    <Input
+                      placeholder="Email"
+                      {...field}
+                      type="email"
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -159,9 +170,16 @@ function SignUp() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Password
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Password" type="password" {...field} />
+                    <Input
+                      placeholder="Password"
+                      type="password"
+                      {...field}
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -169,7 +187,11 @@ function SignUp() {
             />
 
             <div className="flex justify-center w-full">
-              <Button type="submit" disabled={isSubmitting}>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="dark:bg-gray-700 dark:text-white"
+              >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
@@ -184,9 +206,12 @@ function SignUp() {
         </Form>
 
         <div className="text-center mt-4">
-          <p>
+          <p className="text-gray-700 dark:text-gray-300">
             Already have an account?{" "}
-            <Link href="/sign-in" className="text-blue-500 hover:text-blue-800">
+            <Link
+              href="/sign-in"
+              className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+            >
               Sign in
             </Link>
           </p>
