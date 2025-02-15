@@ -4,7 +4,7 @@ import UserModel from "@/backend/model/User";
 import mongoose from "mongoose";
 import { User } from "next-auth";
 
-export async function GET(request: Request) {
+export async function GET() {
   await dbConnect();
   const session = await auth();
   const user: User = session?.user as User;
