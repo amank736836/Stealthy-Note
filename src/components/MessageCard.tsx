@@ -41,7 +41,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
       );
 
       if (response.data.success) {
-        onMessageDelete(message.id);
+        onMessageDelete(message._id);
         toast({
           title: "Message deleted successfully",
           description: "Your message has been deleted successfully",
