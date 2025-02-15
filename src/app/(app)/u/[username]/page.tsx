@@ -20,7 +20,7 @@ import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -111,6 +111,10 @@ export default function SendMessage() {
       console.error("Failed to fetch suggested messages:", error);
     }
   };
+
+  useEffect(() => {
+    fetchSuggestedMessages();
+  }, []);
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white dark:bg-gray-900 rounded-lg max-w-4xl shadow-lg">
