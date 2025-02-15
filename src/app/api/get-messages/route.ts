@@ -44,8 +44,6 @@ export async function GET(request: Request) {
       },
     ]);
 
-    console.log("User", userSpecificMessage);
-
     if (!userSpecificMessage) {
       return Response.json(
         {
@@ -65,7 +63,6 @@ export async function GET(request: Request) {
       });
     }
 
-    console.log("Messages", userSpecificMessage[0].messages);
 
     return Response.json(
       {
@@ -77,7 +74,7 @@ export async function GET(request: Request) {
       }
     );
   } catch (error) {
-    console.log("Unable to get messages", error);
+    console.error("Unable to get messages", error);
     return Response.json(
       {
         success: false,
