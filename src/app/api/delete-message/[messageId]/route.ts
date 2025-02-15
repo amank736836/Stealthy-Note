@@ -1,7 +1,7 @@
 import { auth } from "@/app/api/auth/[...nextauth]/option";
 import dbConnect from "@/backend/lib/dbConnect";
 import UserModel from "@/backend/model/User";
-import { User } from "next-auth";
+import { AuthError, User } from "next-auth";
 
 export async function DELETE(
   request: Request,
@@ -68,10 +68,11 @@ export async function DELETE(
       }
     );
   } catch (error) {
+    const Error = error as AuthError;
     return Response.json(
       {
         success: false,
-        message: "Error deleting message",
+        message: Error.message || "Failed to delete message",
       },
       {
         status: 500,
