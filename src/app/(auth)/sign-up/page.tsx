@@ -82,7 +82,7 @@ function SignUp() {
 
       const axiosError = error as AxiosError<ApiResponse>;
 
-      let errorMessage =
+      const errorMessage =
         axiosError.response?.data.message ||
         "Some error occurred. Please try again later";
 
