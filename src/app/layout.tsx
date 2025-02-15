@@ -20,22 +20,23 @@ export const metadata: Metadata = {
 
 import AuthProvider from "@/context/AuthProvider";
 import Navbar from "@/components/Navbar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <AuthProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-black dark:text-white`}
+      >
+        <AuthProvider>
           <Navbar />
           {children}
           <Toaster />
-        </body>
-      </AuthProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
