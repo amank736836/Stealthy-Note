@@ -77,7 +77,7 @@ function VerifyAccount() {
     if (param.verifyCode) {
       form.setValue("verifyCode", param.verifyCode);
     }
-  }, []);
+  }, [form, param.verifyCode]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
