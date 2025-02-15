@@ -114,7 +114,7 @@ export default function SendMessage() {
 
   useEffect(() => {
     fetchSuggestedMessages();
-  }, []);
+  }, [fetchSuggestedMessages]);
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white dark:bg-gray-900 rounded-lg max-w-4xl shadow-lg">
