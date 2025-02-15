@@ -14,7 +14,7 @@ function Navbar() {
     <nav className="p-4 md:p-6 shadow-md bg-white dark:bg-gray-900 text-black dark:text-white">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <Link href="/" className="text-xl font-bold mb-4 md:mb-0">
-          Stealth Note
+          Stealthy Note
         </Link>
 
         {session ? (
