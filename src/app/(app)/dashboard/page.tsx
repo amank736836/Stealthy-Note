@@ -60,7 +60,7 @@ function Dashboard() {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue]);
+  }, [setValue , toast]);
 
   const fetchMessages = useCallback(async () => {
     setIsLoading(true);
@@ -78,7 +78,7 @@ function Dashboard() {
     } finally {
       setIsLoading(false);
     }
-  }, [setValue]);
+  }, [setValue, toast]);
 
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
