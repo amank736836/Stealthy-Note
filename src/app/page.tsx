@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import { messageFirstRow, messageSecondRow } from "@/messages.json";
+import message from "@/messages.json";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
@@ -40,7 +40,7 @@ const Home = () => {
           ]}
         >
           <CarouselContent>
-            {messageFirstRow.map((message, index) => (
+            {message.messageFirstRow.map((message, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
                   <Card>
@@ -70,7 +70,7 @@ const Home = () => {
           ]}
         >
           <CarouselContent>
-            {messageSecondRow.map((message, index) => (
+            {message.messageSecondRow.map((message, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
                   <Card>
