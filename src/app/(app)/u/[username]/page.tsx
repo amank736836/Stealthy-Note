@@ -110,7 +110,7 @@ export default function SendMessage() {
     } catch (error) {
       console.error("Failed to fetch suggested messages:", error);
     }
-  }, [messageString, setMessageString]);
+  }, []);
 
   useEffect(() => {
     fetchSuggestedMessages();
