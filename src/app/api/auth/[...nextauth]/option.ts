@@ -1,5 +1,5 @@
 import dbConnect from "@/backend/lib/dbConnect";
-import UserModel from "@/backend/model/User";
+import UserModel, { User } from "@/backend/model/User";
 import bcrypt from "bcryptjs";
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
@@ -62,11 +62,12 @@ const authOptions: NextAuthConfig = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token }) {
+      const user: User | null = await UserModel.findById(token._id);
+
       if (user) {
-        token._id = user._id.toString();
         token.isVerified = user.isVerified;
-        token.isAcceptingMessages = user.isAcceptingMessages;
+        token.isAcceptingMessages = user.isAcceptingMessage;
         token.username = user.username;
       }
 
@@ -82,13 +83,15 @@ const authOptions: NextAuthConfig = {
       return session;
     },
   },
-  pages: {
-    signIn: "/sign-in",
-  },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
   },
   secret: process.env.AUTH_SECRET,
+  pages: {
+    signIn: "/sign-in",
+    signOut: "/",
+  },
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
