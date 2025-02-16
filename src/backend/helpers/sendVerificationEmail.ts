@@ -121,7 +121,7 @@ export async function sendVerificationEmail(
 
     console.log("Verification email sent", response);
 
-    if (response.rejected) {
+    if (response.rejected.length > 0) {
       console.error("Failed to send verification email", response.rejected);
       return {
         success: false,
