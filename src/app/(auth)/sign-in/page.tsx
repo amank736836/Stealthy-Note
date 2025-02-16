@@ -53,9 +53,7 @@ function SignIn() {
         variant: "destructive",
       });
     } else if (result?.url) {
-      router.prefetch("/dashboard");
-      router.refresh();
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     }
 
     setIsSubmitting(false);
