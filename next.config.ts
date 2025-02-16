@@ -6,33 +6,43 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/dashboard',
-        destination: '/app/(app)/dashboard',
+        source: "/",
+        destination: "/app",
         permanent: true,
       },
       {
-        source: '/u/:username',
-        destination: '/app/(app)/u/:username',
+        source: "/dashboard",
+        destination: "/app/(app)/dashboard",
         permanent: true,
       },
       {
-        source: '/sign-in',
-        destination: '/app/(auth)/sign-in',
+        source: "/u/:username",
+        destination: "/app/(app)/u/:username",
         permanent: true,
       },
       {
-        source: '/sign-up',
-        destination: '/app/(auth)/sign-up',
+        source: "/sign-in",
+        destination: "/app/(auth)/sign-in",
         permanent: true,
       },
       {
-        source: '/verify/:username',
-        destination: '/app/(auth)/verify/:username',
+        source: "/sign-up",
+        destination: "/app/(auth)/sign-up",
         permanent: true,
       },
       {
-        source: '/verify/:username/:verifyCode',
-        destination: '/app/(auth)/verify/:username/:verifyCode',
+        source: "/verify/:username",
+        destination: "/app/(auth)/verify/:username",
+        permanent: true,
+      },
+      {
+        source: "/verify/:username/:verifyCode",
+        destination: "/app/(auth)/verify/:username/:verifyCode",
+        permanent: true,
+      },
+      {
+        source: "/*",
+        destination: "/app",
         permanent: true,
       },
     ];
@@ -40,17 +50,17 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: '/app/api/:path*',
+        source: "/api/:path*",
+        destination: "/app/api/:path*",
       },
     ];
   },
   images: {
-    domains: ['example.com', 'cdn.example.com'],
+    domains: ["example.com", "cdn.example.com"],
   },
   i18n: {
-    locales: ['en', 'fr', 'es'],
-    defaultLocale: 'en',
+    locales: ["en", "fr", "es"],
+    defaultLocale: "en",
   },
 };
 
