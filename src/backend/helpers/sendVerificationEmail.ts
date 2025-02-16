@@ -14,90 +14,94 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-console.log("Transporter created", transporter);
-
 export async function sendVerificationEmail(
   baseUrl: string,
   email: string,
   username: string,
   verifyCode: string
 ): Promise<ApiResponse> {
-  const Mail = `<html lang="en" dir="ltr">
+  const Mail = `<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verification Code</title>
-  <style>
-    @font-face {
-      font-family: "Roboto";
-      src: url("https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2")
-        format("woff2");
-      font-weight: 400;
-      font-style: normal;
-    }
-    body {
-      font-family: "Roboto", sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      color: #333;
-      text-align: center;
-    }
-    p {
-      color: #555;
-      line-height: 1.6;
-    }
-    .button {
-      display: inline-block;
-      color: #ffffff;
-      background-color: #007bff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      margin-top: 20px;
-      display: block;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .email-container {
+            max-width: 600px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .content {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .verification-code {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+            background: #eaf7ea;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 5px;
+            margin: 15px 0;
+            letter-spacing: 1.5px;
+        }
+        .verify-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Hello ${username},</h2>
-    <p>
-      Thank you for signing up with us. You are just one step away from
-      completing your registration.
-    </p>
-    <p>
-      Please use the following verification code to complete your
-      registration:
-    </p>
-    <p><strong>Verification code: ${verifyCode}</strong></p>
-    <a href="${baseUrl}/verify/${username}/${verifyCode}" class="button"
-      >Click here to verify</a
-    >
-  </div>
+    <div class="email-container">
+        <div class="header">Verify Your Email</div>
+        <div class="content">
+            <p>Hello, ${username}</p>
+            <p>Thank you for signing up! Please confirm your email address by using the verification code below:</p>
+            <div class="verification-code">${verifyCode}</div>
+            <p>Alternatively, you can click the button below to verify your email:</p>
+            <a href="${baseUrl}/verify/${username}/${verifyCode}" class="verify-button">Verify Email</a>
+            <p>If you did not create an account, you can safely ignore this email.</p>
+        </div>
+        <div class="footer">&copy; ${new Date().getFullYear()} Stealthy Note. All rights reserved.</div>
+    </div>
 </body>
-</html>`;
+</html>
+`;
 
   try {
     const mailOptions = {
@@ -115,22 +119,10 @@ export async function sendVerificationEmail(
 
     const response = await transporter.sendMail(mailOptions);
 
-    console.log("Email sent", response);
+    console.log("Verification email sent", response);
 
-    const { error } = await resend.emails.send({
-      from: "StealthyNote@resend.dev",
-      to: "stealthnote@outlook.com",
-      subject: `Stealthy Note - Verification Code for ${email}`,
-      html: Mail,
-      react: VerificationEmail({
-        baseUrl,
-        username,
-        verifyCode,
-      }),
-    });
-
-    if (error) {
-      console.error("Failed to send verification email", error);
+    if (response.rejected) {
+      console.error("Failed to send verification email", response.rejected);
       return {
         success: false,
         message: "Failed to send verification email",
