@@ -39,7 +39,7 @@ function SignUp() {
       router.push("/dashboard");
       return;
     }
-  }, [session]);
+  }, [session, router]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
