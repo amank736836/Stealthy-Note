@@ -33,7 +33,7 @@ const Home = () => {
         <MessageCarousel />
       </main>
       <footer className="text-center p-2 md:p-2">
-        © 2025 Stealthy Note. All rights reserved.
+        © {new Date().getFullYear()} Stealthy Note. All rights reserved.
       </footer>
     </>
   );
