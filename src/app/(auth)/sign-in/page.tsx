@@ -14,16 +14,24 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 function SignIn() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (session && session.user) {
+      router.push("/dashboard");
+      return;
+    }
+  }, [session]);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
