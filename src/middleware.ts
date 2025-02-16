@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl;
 
   if (
-    token != null &&
+    token &&
     (url.pathname.startsWith("/sign-in") ||
       url.pathname.startsWith("/sign-up") ||
       url.pathname.startsWith("/verify") ||
@@ -22,12 +22,8 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  if (token != null && url.pathname !== "/dashboard") {
+  if (token && url.pathname !== "/dashboard") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-
-  if (token == null) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
   return NextResponse.next();
