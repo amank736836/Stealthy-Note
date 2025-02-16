@@ -115,7 +115,7 @@ function Dashboard() {
     }
     fetchMessages();
     fetchAcceptMessage();
-  }, [session, setValue, fetchMessages, fetchAcceptMessage]);
+  }, [session, setValue, fetchMessages, fetchAcceptMessage, router]);
 
   if (!session || !session.user) {
     return <div>Please sign in to view this page</div>;
