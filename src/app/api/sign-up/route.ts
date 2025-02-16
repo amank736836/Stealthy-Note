@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { email, username, password } = await request.json();
+    const { email, username, password, baseUrl } = await request.json();
 
     if (!email) {
       return Response.json(
@@ -103,8 +103,8 @@ export async function POST(request: Request) {
       });
     }
 
-    //send verification email
     const emailResponse = await sendVerificationEmail(
+      baseUrl,
       email,
       username,
       verifyCode
