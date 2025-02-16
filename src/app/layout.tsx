@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 
 import AuthProvider from "@/context/AuthProvider";
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({
   children,
@@ -32,9 +33,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-black dark:text-white`}
       >
         <AuthProvider>
-          <Navbar />
-          {children}
-          <Toaster />
+          <ThemeProvider attribute="class">
+            <Navbar />
+            {children}
+            <Toaster />
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>
