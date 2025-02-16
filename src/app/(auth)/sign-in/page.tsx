@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -52,6 +52,7 @@ function SignIn() {
       });
     } else if (result?.url) {
       router.replace("/dashboard");
+      redirect("/dashboard");
     }
 
     setIsSubmitting(false);
