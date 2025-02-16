@@ -3,13 +3,12 @@ import { ApiResponse } from "@/types/ApiResponse";
 import VerificationEmail from "../emails/VerificationEmail";
 
 export async function sendVerificationEmail(
+  baseUrl: string,
   email: string,
   username: string,
   verifyCode: string
 ): Promise<ApiResponse> {
   try {
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-
     const { error } = await resend.emails.send({
       from: "StealthyNote@resend.dev",
       to: "stealthnote@outlook.com",
