@@ -15,13 +15,23 @@ import { toast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 function VerifyAccount() {
+  const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (session && session.user) {
+      router.push("/dashboard");
+      return;
+    }
+  }, [session]);
+
   const param = useParams<{ username: string }>();
 
   const form = useForm<z.infer<typeof verifySchema>>({
