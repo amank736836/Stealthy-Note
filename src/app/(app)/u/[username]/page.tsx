@@ -20,6 +20,7 @@ import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { parse } from "path";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -82,22 +83,20 @@ export default function SendMessage() {
     }
   };
 
-  const {
-    completion: messageString,
-    setCompletion: setMessageString,
-    isLoading: isCompletionLoading,
-    error: completionError,
-  } = useCompletion({
-    api: "/api/suggest-messages",
-    initialCompletion: initialMessageString,
-  });
+  const [messageString, setMessageString] = useState(initialMessageString);
+  const [messageArray, setMessageArray] = useState<string[]>([]);
+  const [isCompletionLoading, setIsCompletionLoading] = useState(false);
+  const [completionError, setCompletionError] = useState<Error | null>(null);
 
-  const fetchSuggestedMessages = useCallback(async () => {
+  const fetchSuggestedMessages = async () => {
+    setIsCompletionLoading(true);
     try {
       const response = await axios.post<ApiResponse>("/api/suggest-messages", {
         exclude: messageString,
       });
 
+      console.log("Suggested messages:", response);
+      
       if (response.data.success) {
         setMessageString(response.data.message);
       } else {
@@ -109,12 +108,23 @@ export default function SendMessage() {
       }
     } catch (error) {
       console.error("Failed to fetch suggested messages:", error);
+      setCompletionError(error as Error);
+    } finally {
+      setIsCompletionLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchSuggestedMessages();
-  }, [fetchSuggestedMessages]);
+  }, []);
+
+  useEffect(() => {
+    const array = async () => {
+      setMessageArray(await parseStringMessages(messageString));
+    };
+
+    array();
+  }, [messageString]);
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white dark:bg-gray-900 rounded-lg max-w-4xl shadow-lg">
@@ -186,7 +196,7 @@ export default function SendMessage() {
             {completionError ? (
               <p className="text-red-500">{completionError.message}</p>
             ) : messageString ? (
-              parseStringMessages(messageString).map((message, index) => (
+              messageArray.map((message, index) => (
                 <Button
                   key={index}
                   variant="outline"
