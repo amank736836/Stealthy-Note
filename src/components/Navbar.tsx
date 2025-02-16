@@ -5,10 +5,13 @@ import Link from "next/link";
 import { User } from "next-auth";
 import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
   const { data: session } = useSession();
   const user: User = session?.user as User;
+
+  const router = useRouter();
 
   return (
     <nav className="p-4 md:p-6 shadow-md bg-white dark:bg-gray-900 text-black dark:text-white">
@@ -25,7 +28,10 @@ function Navbar() {
             <Button
               className="w-full md:w-auto bg-slate-100 dark:bg-gray-800 text-black dark:text-white"
               variant="outline"
-              onClick={() => signOut()}
+              onClick={() => {
+                signOut();
+                router.push("/");
+              }}
             >
               Logout
             </Button>
