@@ -13,6 +13,7 @@ import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,6 +32,7 @@ function Dashboard() {
   };
 
   const { data: session } = useSession();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof acceptMessageSchema>>({
     resolver: zodResolver(acceptMessageSchema),
@@ -108,6 +110,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (!session || !session.user) {
+      router.push("/sign-in");
       return;
     }
     fetchMessages();
