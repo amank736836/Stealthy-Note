@@ -34,8 +34,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-black dark:text-white`}
       >
-        <Analytics />
-        <SpeedInsights />
         <AuthProvider>
           <ThemeProvider attribute="class">
             <Navbar />
@@ -43,6 +41,9 @@ export default function RootLayout({
             <Toaster />
           </ThemeProvider>
         </AuthProvider>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
