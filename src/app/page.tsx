@@ -5,7 +5,7 @@ import MessageCarousel from "@/components/MessageCarousel";
 const Home = () => {
   return (
     <>
-      <main className="flex-grow flex flex-col justify-center items-center px-4 md:px-24 py-12">
+      <main className="flex-grow flex flex-col justify-center items-center px-4 md:px-24 py-24">
         <section className="text-center mb-4 md:mb-12">
           <h1
             className="text-xl md:text-5xl font-bold lg:text-3xl
