@@ -53,8 +53,7 @@ function SignIn() {
         variant: "destructive",
       });
     } else if (result?.url) {
-      console.log("Redirecting to dashboard");
-      router.replace("/dashboard");
+      router.push("/dashboard");
     }
 
     setIsSubmitting(false);
