@@ -45,7 +45,7 @@ function SignIn() {
     setIsSubmitting(true);
     const result = await signIn("credentials", {
       redirect: false,
-      identifier: data.identifier,
+      identifier: data.identifier.toLowerCase(),
       password: data.password,
     });
 
