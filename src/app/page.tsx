@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Home = () => {
-
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -16,7 +15,6 @@ const Home = () => {
       return;
     }
   }, [session, router]);
-
 
   return (
     <>
