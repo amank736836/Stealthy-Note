@@ -10,7 +10,6 @@ export async function POST(request: Request) {
 
     const baseUrl = `${request.headers.get("origin")}`;
 
-
     if (!email) {
       return Response.json(
         {
