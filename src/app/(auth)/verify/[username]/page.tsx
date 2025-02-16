@@ -30,7 +30,7 @@ function VerifyAccount() {
       router.push("/dashboard");
       return;
     }
-  }, [session]);
+  }, [session, router]);
 
   const param = useParams<{ username: string }>();
 
