@@ -6,7 +6,10 @@ import bcrypt from "bcryptjs";
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { email, username, password, baseUrl } = await request.json();
+    const { email, username, password } = await request.json();
+
+    const baseUrl = `${request.headers.get("origin")}`;
+
 
     if (!email) {
       return Response.json(
