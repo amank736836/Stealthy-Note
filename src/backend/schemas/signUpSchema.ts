@@ -6,7 +6,8 @@ export const usernameValidation = z
   .max(20, { message: "Username must be at most 20 characters long" })
   .regex(/^[a-zA-Z0-9_]*$/, {
     message: "Username must contain only letters, numbers, and underscores",
-  });
+  })
+  .toLowerCase();
 
 export const emailValidation = z
   .string()
