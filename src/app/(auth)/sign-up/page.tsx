@@ -16,6 +16,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,7 +30,16 @@ function SignUp() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const setDebouncedUsername = useDebounceCallback(setUsername, 500);
+
+  const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (session && session.user) {
+      router.push("/dashboard");
+      return;
+    }
+  }, [session]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
