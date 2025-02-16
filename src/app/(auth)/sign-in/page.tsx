@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -36,10 +36,9 @@ function SignIn() {
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
     const result = await signIn("credentials", {
-      redirect: true,
+      redirect: false,
       identifier: data.identifier,
       password: data.password,
-      redirectTo: "/dashboard",
     });
 
     if (result?.error) {
@@ -53,7 +52,6 @@ function SignIn() {
       });
     } else if (result?.url) {
       router.replace("/dashboard");
-      redirect("/dashboard");
     }
 
     setIsSubmitting(false);
