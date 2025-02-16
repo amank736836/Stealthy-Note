@@ -20,7 +20,7 @@ import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -92,7 +92,7 @@ export default function SendMessage() {
     initialCompletion: initialMessageString,
   });
 
-  const fetchSuggestedMessages = async () => {
+  const fetchSuggestedMessages = useCallback(async () => {
     try {
       const response = await axios.post<ApiResponse>("/api/suggest-messages", {
         exclude: messageString,
@@ -110,7 +110,7 @@ export default function SendMessage() {
     } catch (error) {
       console.error("Failed to fetch suggested messages:", error);
     }
-  };
+  }, [messageString, setMessageString]);
 
   useEffect(() => {
     fetchSuggestedMessages();
