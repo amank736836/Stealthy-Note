@@ -63,8 +63,6 @@ const authOptions: NextAuthConfig = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      console.log("user", user);
-
       if (user) {
         token._id = user._id.toString();
         token.isVerified = user.isVerified;
@@ -75,8 +73,6 @@ const authOptions: NextAuthConfig = {
       return token;
     },
     async session({ session, token }) {
-      console.log("token", token);
-
       if (token) {
         session.user._id = token._id as string;
         session.user.isVerified = token.isVerified as boolean;
