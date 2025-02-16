@@ -11,11 +11,13 @@ import {
 } from "@react-email/components";
 
 interface VerificationEmailProps {
+  baseUrl: string;
   username: string;
   verifyCode: string;
 }
 
 export default function VerificationEmail({
+  baseUrl,
   username,
   verifyCode,
 }: VerificationEmailProps) {
@@ -55,7 +57,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Button
-            href={`http://localhost:3000/verify/${username}/${verifyCode}`}
+            href={`${baseUrl}/verify/${username}/${verifyCode}`}
             style={{
               color: "#61dafb",
               backgroundColor: "#282c34",
