@@ -15,7 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -44,6 +44,7 @@ function VerifyAccount() {
       });
 
       router.replace("../sign-in");
+      redirect("../sign-in");
     } catch (error) {
       console.error("Error in verifying user", error);
 
@@ -64,8 +65,10 @@ function VerifyAccount() {
         "Verification Code has expired, please signup again to get a new code"
       ) {
         router.replace("../sign-up");
+        redirect("../sign-up");
       } else if (errorMessage === "User is already verified") {
         router.replace("../sign-in");
+        redirect("../sign-in");
       }
     } finally {
       form.reset();
