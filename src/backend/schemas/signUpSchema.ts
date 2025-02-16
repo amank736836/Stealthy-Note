@@ -20,16 +20,7 @@ export const passwordValidation = z
   .min(6, { message: "Password must be at least 6 characters long" })
   .max(20, { message: "Password must be at most 20 characters long" });
 
-export const baseUrlValidation = z
-  .string()
-  .min(1)
-  .max(50)
-  .regex(/^[a-zA-Z0-9_]*$/, {
-    message: "Base URL must contain only letters, numbers, and underscores",
-  });
-
 export const signUpSchema = z.object({
-  baseUrl: baseUrlValidation,
   username: usernameValidation,
   email: emailValidation,
   password: passwordValidation,
