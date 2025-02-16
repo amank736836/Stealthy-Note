@@ -1,8 +1,23 @@
 "use client";
 
 import MessageCarousel from "@/components/MessageCarousel";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Home = () => {
+
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session && session.user) {
+      router.push("/dashboard");
+      return;
+    }
+  }, [session]);
+
+
   return (
     <>
       <main className="flex-grow flex flex-col justify-center items-center px-4 md:px-24 py-24">
