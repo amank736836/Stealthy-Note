@@ -15,7 +15,7 @@ const Home = () => {
       router.push("/dashboard");
       return;
     }
-  }, [session]);
+  }, [session, router]);
 
 
   return (
