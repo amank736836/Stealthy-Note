@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounceCallback } from "usehooks-ts";
@@ -77,7 +77,6 @@ function SignUp() {
       }
 
       router.replace(`/verify/${username}`);
-      redirect(`/verify/${username}`);
     } catch (error) {
       console.error("Error in signup of user ", error);
 
