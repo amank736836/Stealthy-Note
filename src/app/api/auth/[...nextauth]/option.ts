@@ -75,6 +75,8 @@ const authOptions: NextAuthConfig = {
       return token;
     },
     async session({ session, token }) {
+      console.log("token", token);
+
       if (token) {
         session.user._id = token._id as string;
         session.user.isVerified = token.isVerified as boolean;
