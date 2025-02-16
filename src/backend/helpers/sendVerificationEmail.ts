@@ -8,11 +8,17 @@ export async function sendVerificationEmail(
   verifyCode: string
 ): Promise<ApiResponse> {
   try {
+    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
     const { error } = await resend.emails.send({
       from: "StealthyNote@resend.dev",
       to: "stealthnote@outlook.com",
       subject: `Stealthy Note - Verification Code for ${email}`,
-      react: VerificationEmail({ username, verifyCode }),
+      react: VerificationEmail({
+        baseUrl,
+        username,
+        verifyCode,
+      }),
     });
 
     if (error) {
