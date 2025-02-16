@@ -100,7 +100,7 @@ export async function sendVerificationEmail(
 </html>`;
 
   try {
-    let mailOptions = {
+    const mailOptions = {
       from: `Stealthy Note<${process.env.Node_Mailer_Email}>`,
       to: email,
       subject: `Stealthy Note - Verification Code for ${email}`,
