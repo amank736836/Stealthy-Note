@@ -49,15 +49,13 @@ function SignIn() {
       password: data.password,
     });
 
-    console.log(result);
-
     if (result?.error) {
       toast({
         title: "Login failed",
         description:
           result.error === "CredentialsSignin"
             ? "Invalid username or password"
-            : result.error,
+            : "Check Verify or Credentials",
         variant: "destructive",
       });
     } else if (result?.url) {
