@@ -41,6 +41,8 @@ function SignIn() {
       password: data.password,
     });
 
+    console.log(result);
+
     if (result?.error) {
       toast({
         title: "Login failed",
@@ -51,6 +53,7 @@ function SignIn() {
         variant: "destructive",
       });
     } else if (result?.url) {
+      console.log("Redirecting to dashboard");
       router.replace("/dashboard");
     }
 
