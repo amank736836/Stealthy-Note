@@ -1,7 +1,5 @@
-import { resend } from "@/backend/lib/resend";
 import { ApiResponse } from "@/types/ApiResponse";
 import nodemailer from "nodemailer";
-import VerificationEmail from "../emails/VerificationEmail";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -14,12 +12,17 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendVerificationEmail(
-  baseUrl: string,
-  email: string,
-  username: string,
-  verifyCode: string
-): Promise<ApiResponse> {
+export async function sendVerificationEmail({
+  email,
+  username,
+  verifyCode,
+  baseUrl,
+}: {
+  email: string;
+  username: string;
+  verifyCode: string;
+  baseUrl: string;
+}): Promise<ApiResponse> {
   const Mail = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,14 +110,9 @@ export async function sendVerificationEmail(
     const mailOptions = {
       from: `Stealthy Note<${process.env.Node_Mailer_Email}>`,
       to: email,
-      subject: `Stealthy Note - Verification Code for ${email}`,
+      subject: `Stealthy Note - Verification Code for ${username}`,
       text: `Verification code: ${verifyCode}`,
       html: Mail,
-      react: VerificationEmail({
-        baseUrl,
-        username,
-        verifyCode,
-      }),
     };
 
     const response = await transporter.sendMail(mailOptions);
