@@ -19,7 +19,11 @@ export const emailValidation = z
 export const passwordValidation = z
   .string()
   .min(6, { message: "Password must be at least 6 characters long" })
-  .max(20, { message: "Password must be at most 20 characters long" });
+  .max(20, { message: "Password must be at most 20 characters long" })
+  .regex(/^[a-zA-Z0-9@#$&]*$/, {
+    message:
+      "Password must contain only letters, numbers, and the following special characters: @, #, $, &",
+  });
 
 export const signUpSchema = z.object({
   username: usernameValidation,
