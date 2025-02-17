@@ -45,6 +45,7 @@ function SignIn() {
     setIsSubmitting(true);
     const result = await signIn("credentials", {
       redirect: false,
+      baseUrl: window.location.origin,
       identifier: data.identifier.toLowerCase(),
       password: data.password,
     });
@@ -147,6 +148,18 @@ function SignIn() {
               className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
             >
               Sign Up
+            </Link>
+          </p>
+        </div>
+
+        <div className="text-center mt-4">
+          <p className="text-gray-700 dark:text-gray-300">
+            Forgot your password?{" "}
+            <Link
+              href="/forgot-password"
+              className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+            >
+              Forgot Password
             </Link>
           </p>
         </div>
