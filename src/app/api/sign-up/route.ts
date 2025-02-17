@@ -8,8 +8,6 @@ export async function POST(request: Request) {
   try {
     const { email, username, password } = await request.json();
 
-    const baseUrl = `${request.headers.get("origin")}`;
-
     if (!email) {
       return Response.json(
         {
@@ -105,12 +103,14 @@ export async function POST(request: Request) {
       });
     }
 
-    const emailResponse = await sendVerificationEmail(
+    const baseUrl = `${request.headers.get("origin")}`;
+
+    const emailResponse = await sendVerificationEmail({
       baseUrl,
       email,
       username,
-      verifyCode
-    );
+      verifyCode,
+    });
 
     if (!emailResponse.success) {
       return Response.json(
