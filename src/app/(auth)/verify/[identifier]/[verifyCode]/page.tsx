@@ -31,8 +31,8 @@ function VerifyAccount() {
       return;
     }
   }, [session, router]);
-  
-  const param = useParams<{ username: string; verifyCode: string }>();
+
+  const param = useParams<{ identifier: string; verifyCode: string }>();
 
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
@@ -44,7 +44,7 @@ function VerifyAccount() {
     try {
       setLoading(true);
       const response = await axios.post("/api/verifyCode", {
-        username: param.username,
+        identifier: param.identifier,
         code: param.verifyCode || data.verifyCode,
       });
 
