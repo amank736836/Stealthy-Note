@@ -1,3 +1,4 @@
+import { sendVerificationEmail } from "@/backend/helpers/sendVerificationEmail";
 import dbConnect from "@/backend/lib/dbConnect";
 import UserModel from "@/backend/model/User";
 import bcrypt from "bcryptjs";
@@ -10,6 +11,11 @@ const authOptions: NextAuthConfig = {
       id: "credentials",
       name: "Credentials",
       credentials: {
+        baseUrl: {
+          label: "Base URL",
+          type: "text",
+          placeholder: "Base URL",
+        },
         identifier: {
           label: "Username or Email",
           type: "text",
@@ -31,14 +37,47 @@ const authOptions: NextAuthConfig = {
             ],
           });
 
+          const baseUrl = credentials.baseUrl as string;
+
           if (!user) {
             throw new Error("No user found with this username or email");
           }
 
           if (!user.isVerified) {
             if (user.verifyCodeExpiry < new Date()) {
+              const verifyCode = Math.floor(
+                100000 + Math.random() * 900000
+              ).toString();
+
+              const verifyCodeExpiry = new Date();
+              verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
+
+              user.verifyCode = verifyCode;
+              user.verifyCodeExpiry = verifyCodeExpiry;
+
+              await user.save();
+
+              const emailResponse = await sendVerificationEmail({
+                baseUrl,
+                email: user.email,
+                username: user.username,
+                verifyCode,
+              });
+
+              if (!emailResponse.success) {
+                return Response.json(
+                  {
+                    success: false,
+                    message: `Failed to send verification email: ${emailResponse.message}`,
+                  },
+                  {
+                    status: 500,
+                  }
+                );
+              }
+
               throw new Error(
-                "Verification code expired. Please request a new one"
+                "User is not verified and Verification code expired. New verification code sent to your email"
               );
             } else {
               throw new Error("Please verify your account before logging in");
