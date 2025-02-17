@@ -4,9 +4,9 @@ import UserModel from "@/backend/model/User";
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { username, code } = await request.json();
+    const { identifier, code } = await request.json();
 
-    if (!username) {
+    if (!identifier) {
       return Response.json(
         {
           success: false,
@@ -30,10 +30,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const decodedUsername = decodeURIComponent(username);
+    const decodedIdentifier = decodeURIComponent(identifier);
 
     const user = await UserModel.findOne({
-      username: decodedUsername,
+      $or: [{ email: decodedIdentifier }, { username: decodedIdentifier }],
     });
 
     if (!user) {
@@ -65,6 +65,8 @@ export async function POST(request: Request) {
     const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
 
     if (isCodeValid && isCodeNotExpired) {
+      user.verifyCode = "";
+      user.verifyCodeExpiry = new Date(-1); // Set to past date
       user.isVerified = true;
       await user.save();
       return Response.json(
