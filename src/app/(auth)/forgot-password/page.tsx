@@ -76,8 +76,11 @@ function ForgotPassword() {
         variant: "destructive",
       });
 
-      if (errorMessage === "No user found with this username or email") {
-        router.replace("../sign-up");
+      if (
+        errorMessage ===
+        "Error in forgot password: Error: No user found with this username or email"
+      ) {
+        router.replace(`/sign-up?identifier=${data.identifier}`);
       }
     } finally {
       setLoading(false);
