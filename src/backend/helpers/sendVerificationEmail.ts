@@ -97,7 +97,8 @@ export async function sendVerificationEmail({
             <p>Thank you for signing up! Please confirm your email address by using the verification code below:</p>
             <div class="verification-code">${verifyCode}</div>
             <p>Alternatively, you can click the button below to verify your email:</p>
-            <a href="${baseUrl}/verify/${username}/${verifyCode}" class="verify-button">Verify Email</a>
+            <a href="${baseUrl}/verify?identifier=${username}&verifyCode=${verifyCode}"
+             class="verify-button">Verify Email</a>
             <p>If you did not create an account, you can safely ignore this email.</p>
         </div>
         <div class="footer">&copy; ${new Date().getFullYear()} Stealthy Note. All rights reserved.</div>
