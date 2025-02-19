@@ -16,7 +16,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -31,6 +31,21 @@ function VerifyAccount() {
       return;
     }
   }, [session, router]);
+
+  const searchParams = useSearchParams();
+
+  const identifier = searchParams.get("identifier");
+  const verifyCode = searchParams.get("verifyCode");
+
+  useEffect(() => {
+    if (identifier) {
+      form.setValue("identifier", identifier);
+    }
+
+    if (verifyCode) {
+      form.setValue("verifyCode", verifyCode);
+    }
+  }, [identifier, verifyCode]);
 
   const form = useForm<z.infer<typeof userVerifySchema>>({
     resolver: zodResolver(userVerifySchema),
