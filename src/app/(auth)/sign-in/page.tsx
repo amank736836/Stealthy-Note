@@ -72,7 +72,7 @@ function SignIn() {
   };
 
   return (
-    <Suspense fallback={null}>
+    <Suspense>
       <div className="flex justify-center items-center h-[calc(100vh-92px)] bg-gray-100 dark:bg-gray-900">
         <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <div className="text-center">
