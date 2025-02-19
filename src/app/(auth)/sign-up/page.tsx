@@ -44,17 +44,18 @@ function SignUp() {
   const searchParams = useSearchParams();
   const identifier = searchParams.get("identifier");
 
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
+  });
+
   useEffect(() => {
     if (identifier?.includes("@")) {
       form.setValue("email", identifier);
     } else {
       form.setValue("username", identifier || "");
     }
-  }, [identifier]);
+  }, [identifier, form]);
 
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
-  });
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
