@@ -49,6 +49,8 @@ const UserSchema: Schema<User> = new Schema({
   verifyCode: {
     type: String,
     required: [true, "Verify code is required"],
+    maxlength: [6, "Verify code must be 6 characters long"],
+    minlength: [6, "Verify code must be 6 characters long"],
   },
   verifyCodeExpiry: {
     type: Date,
