@@ -66,7 +66,7 @@ function VerifyAccount() {
         description: response.data.message || "User verified successfully",
       });
 
-      router.replace("../sign-in");
+      router.replace(`/sign-in?identifier=${data.identifier}`);
     } catch (error) {
       console.error("Error in verifying user", error);
 
@@ -82,13 +82,8 @@ function VerifyAccount() {
         variant: "destructive",
       });
 
-      if (
-        errorMessage ===
-        "Verification Code has expired, please signup again to get a new code"
-      ) {
-        router.replace("../sign-up");
-      } else if (errorMessage === "User is already verified") {
-        router.replace("../sign-in");
+      if (errorMessage === "User is already verified") {
+        router.replace(`/sign-in?identifier=${data.identifier}`);
       }
     } finally {
       form.reset();
