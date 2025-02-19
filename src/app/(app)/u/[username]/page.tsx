@@ -116,7 +116,7 @@ export default function SendMessage() {
 
   useEffect(() => {
     fetchSuggestedMessages();
-  }, []);
+  }, [fetchSuggestedMessages]);
 
   useEffect(() => {
     const array = async () => {
