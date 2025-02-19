@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-function verifyForgotPassword() {
+function VerifyForgotPassword() {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -36,6 +36,10 @@ function verifyForgotPassword() {
   const identifier = searchParams.get("identifier");
   const verifyCode = searchParams.get("verifyCode");
 
+  const form = useForm<z.infer<typeof verifyForgotPasswordSchema>>({
+    resolver: zodResolver(verifyForgotPasswordSchema),
+  });
+
   useEffect(() => {
     if (identifier) {
       form.setValue("identifier", identifier);
@@ -44,11 +48,7 @@ function verifyForgotPassword() {
     if (verifyCode) {
       form.setValue("verifyCode", verifyCode);
     }
-  }, [identifier, verifyCode]);
-
-  const form = useForm<z.infer<typeof verifyForgotPasswordSchema>>({
-    resolver: zodResolver(verifyForgotPasswordSchema),
-  });
+  }, [identifier, verifyCode, form]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -212,4 +212,4 @@ function verifyForgotPassword() {
   );
 }
 
-export default verifyForgotPassword;
+export default VerifyForgotPassword;
