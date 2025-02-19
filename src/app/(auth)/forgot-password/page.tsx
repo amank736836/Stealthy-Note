@@ -16,7 +16,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -31,6 +31,15 @@ function ForgotPassword() {
       return;
     }
   }, [session, router]);
+
+  const searchParams = useSearchParams();
+  const identifier = searchParams.get("identifier");
+
+  useEffect(() => {
+    if (identifier) {
+      form.setValue("identifier", identifier);
+    }
+  }, [identifier]);
 
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -51,7 +60,7 @@ function ForgotPassword() {
           response.data.message || "Forgot password Code sent successfully",
       });
 
-      router.replace(`/verify-forgot-password/${data.identifier}`);
+      router.replace(`/verify-forgot-password?identifier=${data.identifier}`);
     } catch (error) {
       console.error("Error in resetting password", error);
 
