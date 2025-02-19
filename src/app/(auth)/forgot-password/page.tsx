@@ -35,15 +35,15 @@ function ForgotPassword() {
   const searchParams = useSearchParams();
   const identifier = searchParams.get("identifier");
 
+  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
+
   useEffect(() => {
     if (identifier) {
       form.setValue("identifier", identifier);
     }
-  }, [identifier]);
-
-  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
-    resolver: zodResolver(forgotPasswordSchema),
-  });
+  }, [identifier, form]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
