@@ -37,6 +37,10 @@ function VerifyAccount() {
   const identifier = searchParams.get("identifier");
   const verifyCode = searchParams.get("verifyCode");
 
+  const form = useForm<z.infer<typeof userVerifySchema>>({
+    resolver: zodResolver(userVerifySchema),
+  });
+
   useEffect(() => {
     if (identifier) {
       form.setValue("identifier", identifier);
@@ -45,11 +49,7 @@ function VerifyAccount() {
     if (verifyCode) {
       form.setValue("verifyCode", verifyCode);
     }
-  }, [identifier, verifyCode]);
-
-  const form = useForm<z.infer<typeof userVerifySchema>>({
-    resolver: zodResolver(userVerifySchema),
-  });
+  }, [identifier, verifyCode, form]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
