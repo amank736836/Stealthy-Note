@@ -18,7 +18,7 @@ import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounceCallback } from "usehooks-ts";
@@ -40,6 +40,17 @@ function SignUp() {
       return;
     }
   }, [session, router]);
+
+  const searchParams = useSearchParams();
+  const identifier = searchParams.get("identifier");
+
+  useEffect(() => {
+    if (identifier?.includes("@")) {
+      form.setValue("email", identifier);
+    } else {
+      form.setValue("username", identifier || "");
+    }
+  }, [identifier]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -86,7 +97,7 @@ function SignUp() {
         });
       }
 
-      router.replace(`/verify/${username}`);
+      router.replace(`/verify?identifier=${data.username}`);
     } catch (error) {
       console.error("Error in signup of user ", error);
 
@@ -219,7 +230,16 @@ function SignUp() {
           <p className="text-gray-700 dark:text-gray-300">
             Already have an account?{" "}
             <Link
-              href="/sign-in"
+              href={{
+                pathname: "/sign-in",
+                query: {
+                  identifier: form.getValues("email")
+                    ? form.getValues("email")
+                    : form.getValues("username")
+                      ? form.getValues("username")
+                      : identifier,
+                },
+              }}
               className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
             >
               Sign in
