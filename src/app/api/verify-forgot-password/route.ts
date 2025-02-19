@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { identifier, code, newPassword } = await request.json();
+    const { identifier, verifyCode, password } = await request.json();
 
     if (!identifier) {
       return Response.json(
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!code) {
+    if (!verifyCode) {
       return Response.json(
         {
           success: false,
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!newPassword) {
+    if (!password) {
       return Response.json(
         {
           success: false,
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       throw new Error("No user found with this username or email");
     }
 
-    if (user.verifyCode !== code) {
+    if (user.verifyCode !== verifyCode) {
       return Response.json(
         {
           success: false,
@@ -77,15 +77,29 @@ export async function POST(request: Request) {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-
     if (user.isVerified === false) {
       user.isVerified = true;
     }
 
-    user.verifyCode = "";
+    user.verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
     user.verifyCodeExpiry = new Date(-1);
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      return Response.json(
+        {
+          success: false,
+          message: "New password cannot be the same as the old password",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
 
     await user.save();
 
