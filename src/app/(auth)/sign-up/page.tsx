@@ -54,11 +54,6 @@ function SignUp() {
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-    },
   });
 
   useEffect(() => {
@@ -197,6 +192,26 @@ function SignUp() {
                   <FormControl>
                     <Input
                       placeholder="Password"
+                      type="password"
+                      {...field}
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Confirm Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Confirm Password"
                       type="password"
                       {...field}
                       className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
