@@ -1,3 +1,4 @@
+import { sendVerificationEmail } from "@/backend/helpers/sendVerificationEmail";
 import dbConnect from "@/backend/lib/dbConnect";
 import UserModel from "@/backend/model/User";
 
@@ -65,8 +66,8 @@ export async function POST(request: Request) {
     const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
 
     if (isCodeValid && isCodeNotExpired) {
-      user.verifyCode = "";
-      user.verifyCodeExpiry = new Date(-1); // Set to past date
+      user.verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+      user.verifyCodeExpiry = new Date(-1);
       user.isVerified = true;
       await user.save();
       return Response.json(
@@ -79,11 +80,39 @@ export async function POST(request: Request) {
         }
       );
     } else if (!isCodeNotExpired) {
+      user.verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const verifyCodeExpiry = new Date();
+      verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
+
+      user.verifyCodeExpiry = verifyCodeExpiry;
+
+      const baseUrl = `${request.headers.get("origin")}`;
+
+      const emailResponse = await sendVerificationEmail({
+        baseUrl,
+        email: user.email,
+        username: user.username,
+        verifyCode: user.verifyCode,
+      });
+
+      if (!emailResponse.success) {
+        return Response.json(
+          {
+            success: false,
+            message: `Failed to send verification email: ${emailResponse.message}`,
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
       return Response.json(
         {
           success: false,
           message:
-            "Verification Code has expired, please signup again to get a new code",
+            "Verification code expired. New verification code sent to your email",
         },
         {
           status: 400,
