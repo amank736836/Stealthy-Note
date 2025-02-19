@@ -36,15 +36,16 @@ function SignIn() {
   const searchParams = useSearchParams();
   const identifier = searchParams.get("identifier");
 
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
+  });
+
   useEffect(() => {
     if (identifier) {
       form.setValue("identifier", identifier);
     }
-  }, [identifier]);
+  }, [identifier, form]);
 
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
-  });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
