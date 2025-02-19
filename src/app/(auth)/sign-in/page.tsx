@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -32,6 +32,15 @@ function SignIn() {
       return;
     }
   }, [session, router]);
+
+  const searchParams = useSearchParams();
+  const identifier = searchParams.get("identifier");
+
+  useEffect(() => {
+    if (identifier) {
+      form.setValue("identifier", identifier);
+    }
+  }, [identifier]);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -73,7 +82,7 @@ function SignIn() {
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-gray-900 dark:text-white">
             Join Stealthy Note 🥷📝
           </h1>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
+          <p className="mb-6 text-gray-700 dark:text-gray-300">
             Sign In to start stealing notes from your friends
           </p>
         </div>
@@ -85,7 +94,7 @@ function SignIn() {
               name="identifier"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                  <FormLabel className="text-gray-900 dark:text-gray-300 mt-8">
                     Username or Email
                   </FormLabel>
                   <FormControl>
@@ -105,7 +114,7 @@ function SignIn() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                  <FormLabel className="text-gray-900 dark:text-gray-300 mt-8">
                     Password
                   </FormLabel>
                   <FormControl>
@@ -125,7 +134,7 @@ function SignIn() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="dark:bg-gray-700 dark:text-white"
+                className="dark:bg-gray-700 dark:text-white mt-8"
               >
                 {isSubmitting ? (
                   <>
@@ -140,26 +149,36 @@ function SignIn() {
           </form>
         </Form>
 
-        <div className="text-center mt-4">
-          <p className="text-gray-700 dark:text-gray-300">
-            Don&apos;t have an account?{" "}
+        <div className="text-center mt-6">
+          <p className="text-gray-700 dark:text-gray-300 mt-8">
+            Forgot your password?{" "}
             <Link
-              href="/sign-up"
+              href={{
+                pathname: "/forgot-password",
+                query: { identifier: form.getValues("identifier") },
+              }}
               className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
             >
-              Sign Up
+              Forgot Password
             </Link>
           </p>
         </div>
 
-        <div className="text-center mt-4">
-          <p className="text-gray-700 dark:text-gray-300">
-            Forgot your password?{" "}
+        <div className="text-center mt-6">
+          <p className="text-gray-700 dark:text-gray-300 mt-8">
+            Don&apos;t have an account?{" "}
             <Link
-              href="/forgot-password"
+              href={{
+                pathname: "/sign-up",
+                query: {
+                  identifier: form.getValues("identifier")
+                    ? form.getValues("identifier")
+                    : identifier,
+                },
+              }}
               className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
             >
-              Forgot Password
+              Sign Up
             </Link>
           </p>
         </div>
