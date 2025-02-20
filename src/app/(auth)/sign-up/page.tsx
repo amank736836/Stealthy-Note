@@ -59,7 +59,7 @@ function SignUp({
     } else {
       form.setValue("username", identifier || "");
     }
-  }, [identifier, form]);
+  }, [identifier]);
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
