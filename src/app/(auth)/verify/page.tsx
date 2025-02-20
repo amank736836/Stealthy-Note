@@ -53,7 +53,7 @@ function VerifyAccount({
     if (verifyCode) {
       form.setValue("verifyCode", verifyCode);
     }
-  }, [identifier, verifyCode, form]);
+  }, [identifier, verifyCode]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
