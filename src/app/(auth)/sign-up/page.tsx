@@ -113,158 +113,156 @@ function SignUp() {
   };
 
   return (
-    <Suspense fallback={null}>
-      <div className="flex justify-center items-center  h-[calc(100vh-92px)]  bg-gray-100 dark:bg-gray-900">
-        <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-gray-900 dark:text-white">
-              Join Stealthy Note 🥷📝
-            </h1>
-            <p className="mb-4 text-gray-700 dark:text-gray-300">
-              Sign up to start stealing notes from your friends
-            </p>
-          </div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-900 dark:text-gray-300">
-                      Username
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Username"
-                        {...field}
-                        type="text"
-                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        onChange={(e) => {
-                          field.onChange(e);
-                          setDebouncedUsername(e.target.value);
-                        }}
-                      />
-                    </FormControl>
-                    {isCheckingUsername && (
-                      <Loader2 className="animate-spin text-gray-500 dark:text-gray-400" />
-                    )}
-                    <p
-                      className={`text-sm ${
-                        usernameMessage === "Username is unique"
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }`}
-                    >
-                      {usernameMessage}
-                    </p>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-900 dark:text-gray-300">
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Email"
-                        {...field}
-                        type="email"
-                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-900 dark:text-gray-300">
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Password"
-                        type="password"
-                        {...field}
-                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-900 dark:text-gray-300">
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Confirm Password"
-                        type="password"
-                        {...field}
-                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex justify-center w-full">
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="dark:bg-gray-700 dark:text-white"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
-                      wait
-                    </>
-                  ) : (
-                    "Sign Up"
+    <div className="flex justify-center items-center  h-[calc(100vh-92px)]  bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-gray-900 dark:text-white">
+            Join Stealthy Note 🥷📝
+          </h1>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Sign up to start stealing notes from your friends
+          </p>
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Username
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Username"
+                      {...field}
+                      type="text"
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setDebouncedUsername(e.target.value);
+                      }}
+                    />
+                  </FormControl>
+                  {isCheckingUsername && (
+                    <Loader2 className="animate-spin text-gray-500 dark:text-gray-400" />
                   )}
-                </Button>
-              </div>
-            </form>
-          </Form>
+                  <p
+                    className={`text-sm ${
+                      usernameMessage === "Username is unique"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {usernameMessage}
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Email"
+                      {...field}
+                      type="email"
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Password"
+                      type="password"
+                      {...field}
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900 dark:text-gray-300">
+                    Confirm Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Confirm Password"
+                      type="password"
+                      {...field}
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <div className="text-center mt-4">
-            <p className="text-gray-700 dark:text-gray-300">
-              Already have an account?{" "}
-              <Link
-                href={{
-                  pathname: "/sign-in",
-                  query: {
-                    identifier: form.getValues("email")
-                      ? form.getValues("email")
-                      : form.getValues("username")
-                        ? form.getValues("username")
-                        : identifier,
-                  },
-                }}
-                className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+            <div className="flex justify-center w-full">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="dark:bg-gray-700 dark:text-white"
               >
-                Sign in
-              </Link>
-            </p>
-          </div>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
+              </Button>
+            </div>
+          </form>
+        </Form>
+
+        <div className="text-center mt-4">
+          <p className="text-gray-700 dark:text-gray-300">
+            Already have an account?{" "}
+            <Link
+              href={{
+                pathname: "/sign-in",
+                query: {
+                  identifier: form.getValues("email")
+                    ? form.getValues("email")
+                    : form.getValues("username")
+                      ? form.getValues("username")
+                      : identifier,
+                },
+              }}
+              className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+            >
+              Sign in
+            </Link>
+          </p>
         </div>
       </div>
-    </Suspense>
+    </div>
   );
 }
 
