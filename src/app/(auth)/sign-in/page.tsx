@@ -157,7 +157,11 @@ function SignIn({
               <Link
                 href={{
                   pathname: "/forgot-password",
-                  query: { identifier: form.getValues("identifier") },
+                  query: {
+                    identifier: form.getValues("identifier")
+                      ? form.getValues("identifier")
+                      : identifier,
+                  },
                 }}
                 className="text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
               >
