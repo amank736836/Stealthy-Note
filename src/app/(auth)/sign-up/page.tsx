@@ -19,12 +19,18 @@ import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounceCallback } from "usehooks-ts";
 import * as z from "zod";
 
-function SignUp() {
+function SignUp({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    identifier: string;
+  }>;
+}) {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -41,12 +47,11 @@ function SignUp() {
     }
   }, [session, router]);
 
-  const searchParams = useSearchParams();
-  const identifier = searchParams.get("identifier");
-
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
   });
+
+  const { identifier } = use(searchParams);
 
   useEffect(() => {
     if (identifier?.includes("@")) {
