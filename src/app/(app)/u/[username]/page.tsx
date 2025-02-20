@@ -96,7 +96,7 @@ export default function SendMessage() {
       });
 
       console.log("Suggested messages:", response);
-      
+
       if (response.data.success) {
         setMessageString(response.data.message);
       } else {
