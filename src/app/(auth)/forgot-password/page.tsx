@@ -17,11 +17,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-function ForgotPassword() {
+function ForgotPassword({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    identifier: string;
+  }>;
+}) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -38,8 +44,7 @@ function ForgotPassword() {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const searchParams = useSearchParams();
-  const identifier = searchParams.get("identifier");
+  const { identifier } = use(searchParams);
 
   useEffect(() => {
     if (identifier) {
