@@ -32,20 +32,20 @@ function ForgotPassword() {
     }
   }, [session, router]);
 
-  const searchParams = useSearchParams();
-  const identifier = searchParams.get("identifier");
-
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
   });
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const searchParams = useSearchParams();
+  const identifier = searchParams.get("identifier");
 
   useEffect(() => {
     if (identifier) {
       form.setValue("identifier", identifier);
     }
-  }, [identifier, form]);
-
-  const [loading, setLoading] = useState<boolean>(false);
+  }, [identifier]);
 
   const onSubmit = async (data: z.infer<typeof forgotPasswordSchema>) => {
     try {
