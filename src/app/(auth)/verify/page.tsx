@@ -17,11 +17,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-function VerifyAccount() {
+function VerifyAccount( {
+  searchParams,
+}: {
+  searchParams: Promise<{
+    identifier: string;
+    verifyCode: string;
+  }>;
+}) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -32,10 +39,7 @@ function VerifyAccount() {
     }
   }, [session, router]);
 
-  const searchParams = useSearchParams();
-
-  const identifier = searchParams.get("identifier");
-  const verifyCode = searchParams.get("verifyCode");
+  const { identifier, verifyCode } = use(searchParams);
 
   const form = useForm<z.infer<typeof userVerifySchema>>({
     resolver: zodResolver(userVerifySchema),
