@@ -49,7 +49,7 @@ function SignIn({
     if (identifier) {
       form.setValue("identifier", identifier);
     }
-  }, [identifier, form]);
+  }, [identifier]);
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
