@@ -17,11 +17,17 @@ import { Loader2 } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-function SignIn() {
+function SignIn({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    identifier: string;
+  }>;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
@@ -33,12 +39,11 @@ function SignIn() {
     }
   }, [session, router]);
 
-  const searchParams = useSearchParams();
-  const identifier = searchParams.get("identifier");
-
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
   });
+
+  const { identifier } = use(searchParams);
 
   useEffect(() => {
     if (identifier) {
