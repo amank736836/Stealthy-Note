@@ -21,7 +21,7 @@ import { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-function VerifyAccount( {
+function VerifyAccount({
   searchParams,
 }: {
   searchParams: Promise<{
@@ -39,11 +39,11 @@ function VerifyAccount( {
     }
   }, [session, router]);
 
-  const { identifier, verifyCode } = use(searchParams);
-
   const form = useForm<z.infer<typeof userVerifySchema>>({
     resolver: zodResolver(userVerifySchema),
   });
+
+  const { identifier, verifyCode } = use(searchParams);
 
   useEffect(() => {
     if (identifier) {
