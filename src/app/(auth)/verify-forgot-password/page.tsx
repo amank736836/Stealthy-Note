@@ -57,11 +57,18 @@ function VerifyForgotPassword({
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
+  const watchFields = form.watch([
+    "password",
+    "confirmPassword",
+    "verifyCode",
+    "identifier",
+  ]);
+  const isButtonDisabled =
+    watchFields.some((field) => !field) || watchFields[0] !== watchFields[1];
 
   const onSubmit = async (data: z.infer<typeof verifyForgotPasswordSchema>) => {
     setLoading(true);
-    setButtonDisabled(true);
+
     try {
       const response = await axios.post("/api/verify-forgot-password", {
         verifyCode: data.verifyCode,
@@ -98,22 +105,9 @@ function VerifyForgotPassword({
       }
     } finally {
       setLoading(false);
-      setButtonDisabled(false);
       form.reset();
     }
   };
-
-  useEffect(() => {
-    if (
-      form.getValues("password") === form.getValues("confirmPassword") &&
-      form.getValues("password") !== "" &&
-      form.getValues("confirmPassword") !== "" &&
-      form.getValues("verifyCode") !== "" &&
-      form.getValues("identifier") !== ""
-    ) {
-      setButtonDisabled(false);
-    }
-  }, [form]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -206,7 +200,7 @@ function VerifyForgotPassword({
             <Button
               type="submit"
               className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
-              disabled={buttonDisabled}
+              disabled={isButtonDisabled}
             >
               {loading ? "Submitting..." : "Submit"}
             </Button>
