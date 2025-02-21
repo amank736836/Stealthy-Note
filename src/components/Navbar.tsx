@@ -1,20 +1,17 @@
 "use client";
 
+import { User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { User } from "next-auth";
-import { Button } from "./ui/button";
-import ThemeToggle from "./ThemeToggle";
 import { useRouter, useSearchParams } from "next/navigation";
-import { use, useEffect } from "react";
+import ThemeToggle from "./ThemeToggle";
+import { Button } from "./ui/button";
 
-function Navbar() {
+function Navbar({ identifier }: { identifier?: string }) {
   const { data: session } = useSession();
   const user: User = session?.user as User;
 
   const router = useRouter();
-
-  const identifier = useSearchParams().get("identifier");
 
   return (
     <nav className="p-4 md:p-6 shadow-md bg-white dark:bg-gray-900 text-black dark:text-white">
