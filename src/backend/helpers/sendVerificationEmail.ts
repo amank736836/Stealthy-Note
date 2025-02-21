@@ -75,7 +75,7 @@ export async function sendVerificationEmail({
         .verify-button {
             display: inline-block;
             background-color: #007bff;
-            color: #ffffff;
+            color: white;
             padding: 12px 25px;
             border-radius: 5px;
             text-decoration: none;
