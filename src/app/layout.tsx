@@ -1,9 +1,9 @@
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   description: "A stealthy note-taking app",
 };
 
-import AuthProvider from "@/context/AuthProvider";
 import Navbar from "@/components/Navbar";
+import AuthProvider from "@/context/AuthProvider";
 import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({
