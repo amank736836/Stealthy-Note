@@ -43,6 +43,9 @@ function SignIn({
     resolver: zodResolver(signInSchema),
   });
 
+  const watchFields = form.watch(["identifier", "password"]);
+  const isButtonDisabled = watchFields.some((field) => !field) || isSubmitting;
+
   const { identifier } = use(searchParams);
 
   useEffect(() => {
@@ -135,7 +138,7 @@ function SignIn({
               <div className="flex justify-center w-full">
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isButtonDisabled || isSubmitting}
                   className="dark:bg-gray-700 dark:text-white mt-8"
                 >
                   {isSubmitting ? (
