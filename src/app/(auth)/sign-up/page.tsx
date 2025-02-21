@@ -51,6 +51,15 @@ function SignUp({
     resolver: zodResolver(signUpSchema),
   });
 
+  const watchFields = form.watch([
+    "password",
+    "confirmPassword",
+    "username",
+    "email",
+  ]);
+  const isButtonDisabled =
+    watchFields.some((field) => !field) || watchFields[0] !== watchFields[1];
+
   const { identifier } = use(searchParams);
 
   useEffect(() => {
@@ -60,15 +69,6 @@ function SignUp({
       form.setValue("username", identifier || "");
     }
   }, [identifier]);
-
-  const watchFields = form.watch([
-    "password",
-    "confirmPassword",
-    "username",
-    "email",
-  ]);
-  const isButtonDisabled =
-    watchFields.some((field) => !field) || watchFields[0] !== watchFields[1];
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
