@@ -3,11 +3,11 @@
 import { User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import { Button } from "./ui/button";
 
-function Navbar({ identifier }: { identifier?: string }) {
+function Navbar() {
   const { data: session } = useSession();
   const user: User = session?.user as User;
 
@@ -30,7 +30,7 @@ function Navbar({ identifier }: { identifier?: string }) {
               variant="outline"
               onClick={() => {
                 signOut();
-                router.push("/");
+                router.push(`/sign-in`);
               }}
             >
               Logout
@@ -40,12 +40,7 @@ function Navbar({ identifier }: { identifier?: string }) {
           <div className="flex items-center space-x-4">
             <ThemeToggle />
 
-            <Link
-              href={{
-                pathname: "/sign-in",
-                query: identifier ? { identifier } : undefined,
-              }}
-            >
+            <Link href="/sign-in">
               <Button className="w-full md:w-auto bg-slate-100 dark:bg-gray-800 text-black dark:text-white">
                 Login
               </Button>
