@@ -31,12 +31,6 @@ function SignUp({
     identifier: string;
   }>;
 }) {
-  const [username, setUsername] = useState("");
-  const [usernameMessage, setUsernameMessage] = useState("");
-  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const setDebouncedUsername = useDebounceCallback(setUsername, 500);
-
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -46,6 +40,12 @@ function SignUp({
       return;
     }
   }, [session, router]);
+
+  const [username, setUsername] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const setDebouncedUsername = useDebounceCallback(setUsername, 500);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
