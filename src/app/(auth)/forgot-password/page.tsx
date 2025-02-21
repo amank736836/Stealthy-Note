@@ -38,11 +38,14 @@ function ForgotPassword({
     }
   }, [session, router]);
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const watchFields = form.watch(["identifier"]);
+  const isButtonDisabled = watchFields.some((field) => !field) || loading;
 
   const { identifier } = use(searchParams);
 
@@ -126,7 +129,7 @@ function ForgotPassword({
             <Button
               type="submit"
               className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
-              disabled={loading}
+              disabled={isButtonDisabled || loading}
             >
               {loading ? "Submitting..." : "Submit"}
             </Button>
