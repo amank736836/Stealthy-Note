@@ -18,8 +18,8 @@ import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, use, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounceCallback } from "usehooks-ts";
 import * as z from "zod";
@@ -60,6 +60,15 @@ function SignUp({
       form.setValue("username", identifier || "");
     }
   }, [identifier]);
+
+  const watchFields = form.watch([
+    "password",
+    "confirmPassword",
+    "username",
+    "email",
+  ]);
+  const isButtonDisabled =
+    watchFields.some((field) => !field) || watchFields[0] !== watchFields[1];
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
@@ -230,7 +239,7 @@ function SignUp({
             <div className="flex justify-center w-full">
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isButtonDisabled || isSubmitting}
                 className="dark:bg-gray-700 dark:text-white"
               >
                 {isSubmitting ? (
