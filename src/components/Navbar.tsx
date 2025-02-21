@@ -5,13 +5,16 @@ import Link from "next/link";
 import { User } from "next-auth";
 import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { use, useEffect } from "react";
 
 function Navbar() {
   const { data: session } = useSession();
   const user: User = session?.user as User;
 
   const router = useRouter();
+
+  const identifier = useSearchParams().get("identifier");
 
   return (
     <nav className="p-4 md:p-6 shadow-md bg-white dark:bg-gray-900 text-black dark:text-white">
@@ -40,7 +43,12 @@ function Navbar() {
           <div className="flex items-center space-x-4">
             <ThemeToggle />
 
-            <Link href="/sign-in">
+            <Link
+              href={{
+                pathname: "/sign-in",
+                query: identifier ? { identifier } : undefined,
+              }}
+            >
               <Button className="w-full md:w-auto bg-slate-100 dark:bg-gray-800 text-black dark:text-white">
                 Login
               </Button>
