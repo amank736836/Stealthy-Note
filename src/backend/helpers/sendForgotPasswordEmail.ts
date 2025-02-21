@@ -134,7 +134,7 @@ export async function sendForgotPasswordEmail({
       from: `Stealthy Note<${process.env.Node_Mailer_Email}>`,
       to: email,
       subject: `Stealthy Note - Forgot Your Password for ${username}`,
-      text: `Verification code: ${verifyCode}`,
+      text: `Forgot Your Password - Verification Code: ${verifyCode}`,
       html: Mail,
     };
 
