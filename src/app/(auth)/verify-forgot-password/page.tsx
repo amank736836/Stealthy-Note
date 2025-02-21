@@ -40,6 +40,7 @@ function VerifyForgotPassword({
   }, [session, router]);
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const form = useForm<z.infer<typeof verifyForgotPasswordSchema>>({
     resolver: zodResolver(verifyForgotPasswordSchema),
@@ -55,6 +56,16 @@ function VerifyForgotPassword({
     watchFields.some((field) => !field) ||
     watchFields[0] !== watchFields[1] ||
     loading;
+
+  useEffect(() => {
+    if (watchFields.some((field) => !field)) {
+      setError("Please fill all the fields");
+    } else if (watchFields[0] !== watchFields[1]) {
+      setError("Passwords do not match");
+    } else {
+      setError("");
+    }
+  }, [watchFields]);
 
   const { identifier, verifyCode } = use(searchParams);
 
@@ -199,6 +210,11 @@ function VerifyForgotPassword({
                 </FormItem>
               )}
             />
+
+            <p className="text-red-500 dark:text-red-400 flex justify-center w-full">
+              {error}
+            </p>
+
             <Button
               type="submit"
               className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
