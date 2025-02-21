@@ -74,7 +74,7 @@ export async function sendForgotPasswordEmail({
         .forgot-button {
             display: inline-block;
             background-color: #dc3545;
-            color: #ffffff;
+            color: white;
             padding: 14px 30px;
             border-radius: 5px;
             text-decoration: none;
