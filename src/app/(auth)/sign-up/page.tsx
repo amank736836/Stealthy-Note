@@ -46,6 +46,7 @@ function SignUp({
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const setDebouncedUsername = useDebounceCallback(setUsername, 500);
+  const [error, setError] = useState<string>("");
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -59,6 +60,16 @@ function SignUp({
   ]);
   const isButtonDisabled =
     watchFields.some((field) => !field) || watchFields[0] !== watchFields[1];
+
+  useEffect(() => {
+    if (watchFields.some((field) => !field)) {
+      setError("Please fill all the fields");
+    } else if (watchFields[0] !== watchFields[1]) {
+      setError("Passwords do not match");
+    } else {
+      setError("");
+    }
+  }, [watchFields]);
 
   const { identifier } = use(searchParams);
 
@@ -235,6 +246,10 @@ function SignUp({
                 </FormItem>
               )}
             />
+
+            <p className="text-red-500 dark:text-red-400 flex justify-center w-full">
+              {error}
+            </p>
 
             <div className="flex justify-center w-full">
               <Button
