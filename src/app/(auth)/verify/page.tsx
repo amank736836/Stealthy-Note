@@ -39,9 +39,14 @@ function VerifyAccount({
     }
   }, [session, router]);
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof userVerifySchema>>({
     resolver: zodResolver(userVerifySchema),
   });
+
+  const watchFields = form.watch(["identifier", "verifyCode"]);
+  const isButtonDisabled = watchFields.some((field) => !field) || loading;
 
   const { identifier, verifyCode } = use(searchParams);
 
@@ -54,8 +59,6 @@ function VerifyAccount({
       form.setValue("verifyCode", verifyCode);
     }
   }, [identifier, verifyCode]);
-
-  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: z.infer<typeof userVerifySchema>) => {
     try {
@@ -149,7 +152,7 @@ function VerifyAccount({
             <Button
               type="submit"
               className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
-              disabled={loading}
+              disabled={isButtonDisabled || loading}
             >
               {loading ? "Verifying..." : "Submit"}
             </Button>
