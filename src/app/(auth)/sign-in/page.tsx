@@ -28,7 +28,6 @@ function SignIn({
     identifier: string;
   }>;
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -38,6 +37,8 @@ function SignIn({
       return;
     }
   }, [session, router]);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
