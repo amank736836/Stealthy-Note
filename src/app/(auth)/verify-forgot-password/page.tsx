@@ -39,9 +39,22 @@ function VerifyForgotPassword({
     }
   }, [session, router]);
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof verifyForgotPasswordSchema>>({
     resolver: zodResolver(verifyForgotPasswordSchema),
   });
+
+  const watchFields = form.watch([
+    "password",
+    "confirmPassword",
+    "verifyCode",
+    "identifier",
+  ]);
+  const isButtonDisabled =
+    watchFields.some((field) => !field) ||
+    watchFields[0] !== watchFields[1] ||
+    loading;
 
   const { identifier, verifyCode } = use(searchParams);
 
@@ -54,17 +67,6 @@ function VerifyForgotPassword({
       form.setValue("verifyCode", verifyCode);
     }
   }, [identifier, verifyCode]);
-
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const watchFields = form.watch([
-    "password",
-    "confirmPassword",
-    "verifyCode",
-    "identifier",
-  ]);
-  const isButtonDisabled =
-    watchFields.some((field) => !field) || watchFields[0] !== watchFields[1];
 
   const onSubmit = async (data: z.infer<typeof verifyForgotPasswordSchema>) => {
     setLoading(true);
