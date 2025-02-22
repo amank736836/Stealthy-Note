@@ -23,7 +23,7 @@ export async function POST(request: Request) {
       return Response.json(
         {
           success: false,
-          message: "Code is required",
+          message: "Verification code is required",
         },
         {
           status: 400,
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
       user.isVerified = true;
     }
 
-    user.verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    user.verifyCode = Math.floor(100000 + Math.random() * 900000);
     user.verifyCodeExpiry = new Date(-1);
 
     const match = await bcrypt.compare(password, user.password);
