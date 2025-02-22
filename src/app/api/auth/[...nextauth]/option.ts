@@ -103,7 +103,12 @@ const authOptions: NextAuthConfig = {
             throw new Error("Invalid password");
           }
 
-          return user;
+          return {
+            _id: user._id,
+            isVerified: user.isVerified,
+            isAcceptingMessages: user.isAcceptingMessage,
+            username: user.username,
+          };
         } catch (error) {
           throw new Error(`Error in authorize: ${error}`);
         }
