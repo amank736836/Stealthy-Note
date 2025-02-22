@@ -13,7 +13,7 @@ import {
 interface VerificationEmailProps {
   baseUrl: string;
   username: string;
-  verifyCode: string;
+  verifyCode: number;
 }
 
 export default function VerificationEmail({
@@ -38,7 +38,7 @@ export default function VerificationEmail({
           />
         </title>
       </Head>
-      <Preview>Here&apos;s your verification code: {verifyCode}</Preview>
+      <Preview>Here&apos;s your verification code</Preview>
       <Section>
         <Row>
           <Heading as="h2">Hello {username},</Heading>
