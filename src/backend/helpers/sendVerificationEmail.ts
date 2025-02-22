@@ -20,7 +20,7 @@ export async function sendVerificationEmail({
 }: {
   email: string;
   username: string;
-  verifyCode: string;
+  verifyCode: number;
   baseUrl: string;
 }): Promise<ApiResponse> {
   const Mail = `<!DOCTYPE html>
@@ -89,6 +89,7 @@ export async function sendVerificationEmail({
         }
     </style>
 </head>
+<preview>Verify Your Email</preview>
 <body>
     <div class="email-container">
         <div class="header">Verify Your Email</div>
