@@ -19,7 +19,7 @@ import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -86,7 +86,7 @@ export default function SendMessage() {
   const [isCompletionLoading, setIsCompletionLoading] = useState(false);
   const [completionError, setCompletionError] = useState<Error | null>(null);
 
-  const fetchSuggestedMessages = async () => {
+  const fetchSuggestedMessages = useCallback(async () => {
     setIsCompletionLoading(true);
     try {
       const response = await axios.post<ApiResponse>("/api/suggest-messages", {
@@ -110,11 +110,11 @@ export default function SendMessage() {
     } finally {
       setIsCompletionLoading(false);
     }
-  };
+  }, [messageString]);
 
   useEffect(() => {
     fetchSuggestedMessages();
-  }, [fetchSuggestedMessages]);
+  }, []);
 
   useEffect(() => {
     const array = async () => {
