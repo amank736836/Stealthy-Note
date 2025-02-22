@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { passwordValidation } from "./signUpSchema";
+import { passwordValidation } from "@/backend/schemas/signUpSchema";
 
 export const identifierValidation = z
   .string()
