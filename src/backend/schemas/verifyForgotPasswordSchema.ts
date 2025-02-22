@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { verifyCodeValidation } from "./verifySchema";
 import { passwordValidation } from "./signUpSchema";
 import { identifierValidation } from "./signInSchema";
+import { verifyCodeValidation } from "./userVerifySchema";
 
 export const verifyForgotPasswordSchema = z.object({
   identifier: identifierValidation,
