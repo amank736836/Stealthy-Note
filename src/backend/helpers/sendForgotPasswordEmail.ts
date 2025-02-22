@@ -20,7 +20,7 @@ export async function sendForgotPasswordEmail({
 }: {
   email: string;
   username: string;
-  verifyCode: string;
+  verifyCode: number;
   baseUrl: string;
 }): Promise<ApiResponse> {
   const Mail = `<!DOCTYPE html>
@@ -28,7 +28,8 @@ export async function sendForgotPasswordEmail({
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Your Password</title>
+    <title>Forgot Your Password
+    </title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -110,6 +111,7 @@ export async function sendForgotPasswordEmail({
         }
     </style>
 </head>
+<preview>Forgot Your Password</preview>
 <body>
     <div class="email-container">
         <div class="header">Forgot Your Password</div>
