@@ -26,7 +26,7 @@ function VerifyForgotPassword({
 }: {
   searchParams: Promise<{
     identifier: string;
-    verifyCode: string;
+    verifyCode: number;
   }>;
 }) {
   const { data: session } = useSession();
