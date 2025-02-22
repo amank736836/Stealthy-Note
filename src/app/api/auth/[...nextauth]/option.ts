@@ -28,6 +28,18 @@ const authOptions: NextAuthConfig = {
         },
       },
       async authorize(credentials): Promise<any> {
+        if (!credentials.baseUrl) {
+          throw new Error("Base URL is required");
+        }
+
+        if (!credentials.identifier) {
+          throw new Error("Username or Email is required");
+        }
+
+        if (!credentials.password) {
+          throw new Error("Password is required");
+        }
+
         await dbConnect();
         try {
           const user = await UserModel.findOne({
