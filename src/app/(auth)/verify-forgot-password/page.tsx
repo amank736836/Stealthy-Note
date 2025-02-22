@@ -75,7 +75,7 @@ function VerifyForgotPassword({
     }
 
     if (verifyCode) {
-      form.setValue("verifyCode", verifyCode);
+      form.setValue("verifyCode", Number(verifyCode));
     }
   }, [identifier, verifyCode]);
 
