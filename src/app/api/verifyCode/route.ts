@@ -79,7 +79,7 @@ export async function POST(request: Request) {
           status: 200,
         }
       );
-    } else if (!isVerifyCodeNotExpired) {
+    } else if (isVerifyCodeValid && !isVerifyCodeNotExpired) {
       user.verifyCode = Math.floor(100000 + Math.random() * 900000);
 
       const verifyCodeExpiry = new Date();
