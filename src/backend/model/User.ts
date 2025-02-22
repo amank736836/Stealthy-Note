@@ -22,7 +22,7 @@ export interface User extends Document {
   username: string;
   email: string;
   password: string;
-  verifyCode: string;
+  verifyCode: number;
   verifyCodeExpiry: Date;
   isVerified: boolean;
   isAcceptingMessage: boolean;
@@ -35,11 +35,14 @@ const UserSchema: Schema<User> = new Schema({
     required: [true, "Username is required"],
     unique: true,
     trim: true,
+    lowercase: true,
   },
   email: {
     type: String,
     required: [true, "Email is required"],
     unique: true,
+    trim: true,
+    lowercase: true,
     match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, "Invalid email format"],
   },
   password: {
@@ -47,10 +50,10 @@ const UserSchema: Schema<User> = new Schema({
     required: [true, "Password is required"],
   },
   verifyCode: {
-    type: String,
+    type: Number,
     required: [true, "Verify code is required"],
-    maxlength: [6, "Verify code must be 6 characters long"],
-    minlength: [6, "Verify code must be 6 characters long"],
+    max: 999999,
+    min: 100000,
   },
   verifyCodeExpiry: {
     type: Date,
