@@ -47,7 +47,7 @@ const authOptions: NextAuthConfig = {
             if (user.verifyCodeExpiry < new Date()) {
               const verifyCode = Math.floor(
                 100000 + Math.random() * 900000
-              ).toString();
+              )
 
               const verifyCodeExpiry = new Date();
               verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
