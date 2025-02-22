@@ -138,6 +138,7 @@ const authOptions: NextAuthConfig = {
   },
   pages: {
     signIn: "/sign-in",
+    error: "/sign-in",
   },
   session: {
     strategy: "jwt",
