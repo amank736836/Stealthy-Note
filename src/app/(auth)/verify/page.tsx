@@ -26,7 +26,7 @@ function VerifyAccount({
 }: {
   searchParams: Promise<{
     identifier: string;
-    verifyCode: string;
+    verifyCode: number;
   }>;
 }) {
   const { data: session } = useSession();
@@ -65,7 +65,7 @@ function VerifyAccount({
       setLoading(true);
       const response = await axios.post("/api/verifyCode", {
         identifier: data.identifier,
-        code: data.verifyCode,
+        verifyCode: data.verifyCode,
       });
 
       toast({
