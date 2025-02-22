@@ -5,7 +5,7 @@ import UserModel from "@/backend/model/User";
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { identifier, code } = await request.json();
+    const { identifier, verifyCode } = await request.json();
 
     if (!identifier) {
       return Response.json(
@@ -19,11 +19,11 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!code) {
+    if (!verifyCode) {
       return Response.json(
         {
           success: false,
-          message: "Code is required",
+          message: "Verification code is required",
         },
         {
           status: 400,
@@ -61,12 +61,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const isCodeValid = user.verifyCode === code;
+    const isVerifyCodeValid = user.verifyCode === verifyCode;
 
-    const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
+    const isVerifyCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
 
-    if (isCodeValid && isCodeNotExpired) {
-      user.verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    if (isVerifyCodeValid && isVerifyCodeNotExpired) {
+      user.verifyCode = Math.floor(100000 + Math.random() * 900000);
       user.verifyCodeExpiry = new Date(-1);
       user.isVerified = true;
       await user.save();
@@ -79,8 +79,8 @@ export async function POST(request: Request) {
           status: 200,
         }
       );
-    } else if (!isCodeNotExpired) {
-      user.verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    } else if (!isVerifyCodeNotExpired) {
+      user.verifyCode = Math.floor(100000 + Math.random() * 900000);
 
       const verifyCodeExpiry = new Date();
       verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
