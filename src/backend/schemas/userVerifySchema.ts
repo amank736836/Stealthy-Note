@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { identifierValidation } from "./signInSchema";
+import { identifierValidation } from "@/backend/schemas/signInSchema";
 
 export const verifyCodeValidation = z
   .number()
