@@ -4,7 +4,7 @@ import UserModel from "@/backend/model/User";
 
 export async function POST(request: Request) {
   await dbConnect();
-  
+
   try {
     const { identifier } = await request.json();
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       throw new Error("No user found with this username or email");
     }
 
-    const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verifyCode = Math.floor(100000 + Math.random() * 900000);
 
     const verifyCodeExpiry = new Date();
     verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
