@@ -3,36 +3,37 @@ import dbConnect from "@/backend/lib/dbConnect";
 import UserModel from "@/backend/model/User";
 
 export async function POST(request: Request) {
+  const { identifier, verifyCode } = await request.json();
+
+  if (!identifier) {
+    return Response.json(
+      {
+        success: false,
+        message: "Username is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  if (!verifyCode) {
+    return Response.json(
+      {
+        success: false,
+        message: "Verification code is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  const decodedIdentifier = decodeURIComponent(identifier);
+
   await dbConnect();
+
   try {
-    const { identifier, verifyCode } = await request.json();
-
-    if (!identifier) {
-      return Response.json(
-        {
-          success: false,
-          message: "Username is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (!verifyCode) {
-      return Response.json(
-        {
-          success: false,
-          message: "Verification code is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    const decodedIdentifier = decodeURIComponent(identifier);
-
     const user = await UserModel.findOne({
       $or: [{ email: decodedIdentifier }, { username: decodedIdentifier }],
     });

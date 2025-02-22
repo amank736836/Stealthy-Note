@@ -2,8 +2,33 @@ import dbConnect from "@/backend/lib/dbConnect";
 import UserModel, { Message, User } from "@/backend/model/User";
 
 export async function POST(request: Request) {
-  await dbConnect();
   const { username, content } = await request.json();
+
+  if (!username) {
+    return Response.json(
+      {
+        success: false,
+        message: "Username is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  if (!content) {
+    return Response.json(
+      {
+        success: false,
+        message: "Content is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  await dbConnect();
 
   try {
     const user: User | null = await UserModel.findOne({ username });

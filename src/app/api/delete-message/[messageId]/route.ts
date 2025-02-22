@@ -9,13 +9,9 @@ export async function DELETE(
 ) {
   const { messageId } = await params;
 
-
-  await dbConnect();
-
   const session = await auth();
-  const user: User = session?.user as User;
 
-  if (!session || !user) {
+  if (!session) {
     return Response.json(
       {
         success: false,
@@ -26,6 +22,22 @@ export async function DELETE(
       }
     );
   }
+
+  const user: User = session.user as User;
+
+  if (!user) {
+    return Response.json(
+      {
+        success: false,
+        message: "User not found",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+
+  await dbConnect();
 
   try {
     const updatedResult = await UserModel.updateOne(

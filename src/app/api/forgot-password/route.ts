@@ -3,23 +3,23 @@ import dbConnect from "@/backend/lib/dbConnect";
 import UserModel from "@/backend/model/User";
 
 export async function POST(request: Request) {
+  const { identifier } = await request.json();
+
+  if (!identifier) {
+    return Response.json(
+      {
+        success: false,
+        message: "Identifier is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
   await dbConnect();
 
   try {
-    const { identifier } = await request.json();
-
-    if (!identifier) {
-      return Response.json(
-        {
-          success: false,
-          message: "Identifier is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
     const user = await UserModel.findOne({
       $or: [{ email: identifier }, { username: identifier }],
     });

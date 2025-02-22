@@ -5,10 +5,9 @@ import { auth } from "@/app/api/auth/[...nextauth]/option";
 import UserModel from "@/backend/model/User";
 
 export async function POST(request: Request) {
-  await dbConnect();
   const session = await auth();
 
-  if (!session || !session.user) {
+  if (!session) {
     return Response.json(
       {
         success: false,
@@ -20,11 +19,49 @@ export async function POST(request: Request) {
     );
   }
 
-  const user: User = session?.user as User;
+  const user: User = session.user as User;
+
+  if (!user) {
+    return Response.json(
+      {
+        success: false,
+        message: "User not found",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
 
   const userId = user._id;
 
+  if (!userId) {
+    return Response.json(
+      {
+        success: false,
+        message: "UserId is required",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+
   const { isAcceptingMessage } = await request.json();
+
+  if (typeof isAcceptingMessage !== "boolean") {
+    return Response.json(
+      {
+        success: false,
+        message: "Accepting messages status is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  await dbConnect();
 
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(

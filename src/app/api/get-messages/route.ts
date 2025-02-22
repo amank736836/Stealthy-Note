@@ -1,15 +1,13 @@
 import { auth } from "@/app/api/auth/[...nextauth]/option";
 import dbConnect from "@/backend/lib/dbConnect";
 import UserModel from "@/backend/model/User";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { User } from "next-auth";
 
 export async function GET() {
-  await dbConnect();
   const session = await auth();
-  const user: User = session?.user as User;
 
-  if (!session || !user) {
+  if (!session) {
     return Response.json(
       {
         success: false,
@@ -21,7 +19,35 @@ export async function GET() {
     );
   }
 
-  const userId = new mongoose.Types.ObjectId(user._id);
+  const user: User = session?.user as User;
+
+  if (!user) {
+    return Response.json(
+      {
+        success: false,
+        message: "User not found",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+
+  const userId = new Types.ObjectId(user._id);
+
+  if (!userId) {
+    return Response.json(
+      {
+        success: false,
+        message: "UserId is required",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+
+  await dbConnect();
 
   try {
     const userSpecificMessage = await UserModel.aggregate([
@@ -62,7 +88,6 @@ export async function GET() {
         messages: [],
       });
     }
-
 
     return Response.json(
       {

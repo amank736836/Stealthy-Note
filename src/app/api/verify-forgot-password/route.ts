@@ -3,48 +3,49 @@ import UserModel from "@/backend/model/User";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
+  const { identifier, verifyCode, password } = await request.json();
+
+  if (!identifier) {
+    return Response.json(
+      {
+        success: false,
+        message: "Identifier is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  if (!verifyCode) {
+    return Response.json(
+      {
+        success: false,
+        message: "Verification code is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  if (!password) {
+    return Response.json(
+      {
+        success: false,
+        message: "New Password is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  const decodedIdentifier = decodeURIComponent(identifier);
+
   await dbConnect();
+
   try {
-    const { identifier, verifyCode, password } = await request.json();
-
-    if (!identifier) {
-      return Response.json(
-        {
-          success: false,
-          message: "Identifier is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (!verifyCode) {
-      return Response.json(
-        {
-          success: false,
-          message: "Verification code is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (!password) {
-      return Response.json(
-        {
-          success: false,
-          message: "New Password is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    const decodedIdentifier = decodeURIComponent(identifier);
-
     const user = await UserModel.findOne({
       $or: [{ email: decodedIdentifier }, { username: decodedIdentifier }],
     });

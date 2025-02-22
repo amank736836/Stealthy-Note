@@ -4,46 +4,47 @@ import UserModel from "@/backend/model/User";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
+  const { email, username, password } = await request.json();
+
+  if (!email) {
+    return Response.json(
+      {
+        success: false,
+        message: "Email is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  if (!username) {
+    return Response.json(
+      {
+        success: false,
+        message: "Username is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  if (!password) {
+    return Response.json(
+      {
+        success: false,
+        message: "Password is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
   await dbConnect();
+
   try {
-    const { email, username, password } = await request.json();
-
-    if (!email) {
-      return Response.json(
-        {
-          success: false,
-          message: "Email is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (!username) {
-      return Response.json(
-        {
-          success: false,
-          message: "Username is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (!password) {
-      return Response.json(
-        {
-          success: false,
-          message: "Password is required",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
     const existingUserVerifiedByUsername = await UserModel.findOne({
       username,
       isVerified: true,

@@ -8,34 +8,47 @@ const UsernameQuerySchema = z.object({
 });
 
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const queryParam = {
+    username: searchParams.get("username"),
+  };
+
+  const result = UsernameQuerySchema.safeParse(queryParam);
+
+  if (!result.success) {
+    const usernameErrors = result.error.format().username?._errors || [];
+
+    return Response.json(
+      {
+        success: false,
+        message:
+          usernameErrors?.length > 0
+            ? usernameErrors.join(", ")
+            : usernameErrors,
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  const { username } = result.data;
+
+  if (!username) {
+    return Response.json(
+      {
+        success: false,
+        message: "Username is required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
   await dbConnect();
+
   try {
-    const { searchParams } = new URL(request.url);
-    const queryParam = {
-      username: searchParams.get("username"),
-    };
-
-    const result = UsernameQuerySchema.safeParse(queryParam);
-
-    if (!result.success) {
-      const usernameErrors = result.error.format().username?._errors || [];
-
-      return Response.json(
-        {
-          success: false,
-          message:
-            usernameErrors?.length > 0
-              ? usernameErrors.join(", ")
-              : "Invalid username",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    const { username } = result.data;
-
     const existingVerifiedUser = await UserModel.findOne({
       username,
       isVerified: true,
