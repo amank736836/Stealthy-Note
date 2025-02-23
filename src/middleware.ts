@@ -8,6 +8,8 @@ export async function middleware(req: NextRequest) {
     cookieName: "__Secure-authjs.session-token",
   });
 
+  console.log(token);
+
   const pathname = req.nextUrl.pathname;
 
   if (
