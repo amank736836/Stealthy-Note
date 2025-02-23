@@ -2,7 +2,6 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
-
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
@@ -11,7 +10,13 @@ export async function middleware(req: NextRequest) {
 
   const pathname = req.nextUrl.pathname;
 
-  if (token && pathname !== "/dashboard") {
+  if (
+    token &&
+    pathname !== "/dashboard" &&
+    pathname.startsWith("/api/accept-messages") &&
+    pathname.startsWith("/api/get-messages") &&
+    pathname.startsWith("/api/delete-message")
+  ) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
@@ -22,7 +27,16 @@ export async function middleware(req: NextRequest) {
     pathname !== "/sign-up" &&
     pathname !== "/forgot-password" &&
     pathname !== "/verify-forgot-password" &&
-    pathname !== "/verify"
+    pathname !== "/verify" &&
+    !pathname.startsWith("/u") &&
+    !pathname.startsWith("/api/auth") &&
+    !pathname.startsWith("/api/check-username-unique") &&
+    !pathname.startsWith("/api/forgot-password") &&
+    !pathname.startsWith("/api/send-message") &&
+    !pathname.startsWith("/api/sign-up") &&
+    !pathname.startsWith("/api/suggest-messages") &&
+    !pathname.startsWith("/api/verify-forgot-password") &&
+    !pathname.startsWith("/api/verifyCode")
   ) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
