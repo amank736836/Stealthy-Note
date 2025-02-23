@@ -19,7 +19,7 @@ export async function middleware(req: NextRequest) {
     !pathname.startsWith("/api/accept-messages") &&
     !pathname.startsWith("/api/get-messages") &&
     !pathname.startsWith("/api/delete-message") &&
-    !pathname.startsWith("/api/auth/session") &&
+    !pathname.startsWith("/api/auth") &&
     !pathname.startsWith("/api/send-message") &&
     !pathname.startsWith("/api/suggest-messages")
   ) {
