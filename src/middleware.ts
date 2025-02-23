@@ -15,7 +15,8 @@ export async function middleware(req: NextRequest) {
     pathname !== "/dashboard" &&
     !pathname.startsWith("/api/accept-messages") &&
     !pathname.startsWith("/api/get-messages") &&
-    !pathname.startsWith("/api/delete-message")
+    !pathname.startsWith("/api/delete-message") &&
+    !pathname.startsWith("/api/auth/session")
   ) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
@@ -36,7 +37,8 @@ export async function middleware(req: NextRequest) {
     !pathname.startsWith("/api/sign-up") &&
     !pathname.startsWith("/api/suggest-messages") &&
     !pathname.startsWith("/api/verify-forgot-password") &&
-    !pathname.startsWith("/api/verifyCode")
+    !pathname.startsWith("/api/verifyCode") &&
+    !pathname.startsWith("/api/auth/session")
   ) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
