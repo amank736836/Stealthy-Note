@@ -13,9 +13,9 @@ export async function middleware(req: NextRequest) {
   if (
     token &&
     pathname !== "/dashboard" &&
-    pathname.startsWith("/api/accept-messages") &&
-    pathname.startsWith("/api/get-messages") &&
-    pathname.startsWith("/api/delete-message")
+    !pathname.startsWith("/api/accept-messages") &&
+    !pathname.startsWith("/api/get-messages") &&
+    !pathname.startsWith("/api/delete-message")
   ) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
