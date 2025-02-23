@@ -2,6 +2,9 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
+
+  console.log("req" , req);
+
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
