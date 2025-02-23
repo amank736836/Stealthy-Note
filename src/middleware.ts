@@ -13,6 +13,7 @@ export async function middleware(req: NextRequest) {
   if (
     token &&
     pathname !== "/dashboard" &&
+    !pathname.startsWith("/u") &&
     !pathname.startsWith("/api/accept-messages") &&
     !pathname.startsWith("/api/get-messages") &&
     !pathname.startsWith("/api/delete-message") &&
