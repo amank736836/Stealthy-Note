@@ -135,6 +135,9 @@ const authOptions: NextAuthConfig = {
       }
       return session;
     },
+    authorized: async ({ auth }) => {
+      return !!auth;
+    },
   },
   pages: {
     signIn: "/sign-in",
