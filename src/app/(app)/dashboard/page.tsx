@@ -109,13 +109,9 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    if (!session || !session.user) {
-      router.push("/sign-in");
-      return;
-    }
     fetchMessages();
     fetchAcceptMessage();
-  }, [session, setValue, fetchMessages, fetchAcceptMessage, router]);
+  }, [setValue, fetchMessages, fetchAcceptMessage, router]);
 
   if (!session || !session.user) {
     return <div>Please sign in to view this page</div>;
