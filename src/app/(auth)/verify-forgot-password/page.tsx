@@ -42,8 +42,26 @@ function VerifyForgotPassword({
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
+  const { identifier, verifyCode } = use(searchParams);
+
+  useEffect(() => {
+    if (identifier) {
+      form.setValue("identifier", identifier);
+    }
+
+    if (verifyCode) {
+      form.setValue("verifyCode", Number(verifyCode));
+    }
+  }, [identifier, verifyCode]);
+
   const form = useForm<z.infer<typeof verifyForgotPasswordSchema>>({
     resolver: zodResolver(verifyForgotPasswordSchema),
+    defaultValues: {
+      identifier: identifier || "",
+      verifyCode: verifyCode || 0,
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const watchFields = form.watch([
@@ -66,18 +84,6 @@ function VerifyForgotPassword({
       setError("");
     }
   }, [watchFields]);
-
-  const { identifier, verifyCode } = use(searchParams);
-
-  useEffect(() => {
-    if (identifier) {
-      form.setValue("identifier", identifier);
-    }
-
-    if (verifyCode) {
-      form.setValue("verifyCode", Number(verifyCode));
-    }
-  }, [identifier, verifyCode]);
 
   const onSubmit = async (data: z.infer<typeof verifyForgotPasswordSchema>) => {
     setLoading(true);
