@@ -15,6 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
@@ -40,13 +41,6 @@ function ForgotPassword({
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
-    resolver: zodResolver(forgotPasswordSchema),
-  });
-
-  const watchFields = form.watch(["identifier"]);
-  const isButtonDisabled = watchFields.some((field) => !field) || loading;
-
   const { identifier } = use(searchParams);
 
   useEffect(() => {
@@ -54,6 +48,16 @@ function ForgotPassword({
       form.setValue("identifier", identifier);
     }
   }, [identifier]);
+
+  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      identifier: identifier || "",
+    },
+  });
+
+  const watchFields = form.watch(["identifier"]);
+  const isButtonDisabled = watchFields.some((field) => !field) || loading;
 
   const onSubmit = async (data: z.infer<typeof forgotPasswordSchema>) => {
     try {
@@ -131,7 +135,13 @@ function ForgotPassword({
               className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
               disabled={isButtonDisabled || loading}
             >
-              {loading ? "Submitting..." : "Submit"}
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin h-4 w-4" />
+                </>
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </Form>
