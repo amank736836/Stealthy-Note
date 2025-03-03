@@ -40,13 +40,6 @@ function SignIn({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
-  });
-
-  const watchFields = form.watch(["identifier", "password"]);
-  const isButtonDisabled = watchFields.some((field) => !field) || isSubmitting;
-
   const { identifier } = use(searchParams);
 
   useEffect(() => {
@@ -54,6 +47,17 @@ function SignIn({
       form.setValue("identifier", identifier);
     }
   }, [identifier]);
+
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      identifier: identifier || "",
+      password: "",
+    },
+  });
+
+  const watchFields = form.watch(["identifier", "password"]);
+  const isButtonDisabled = watchFields.some((field) => !field) || isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
@@ -64,11 +68,11 @@ function SignIn({
       password: data.password,
     });
 
-    if (result?.error) {
+    if (result?.error || !result?.ok) {
       toast({
         title: "Login failed",
         description:
-          result.error === "CredentialsSignin"
+          result?.error === "CredentialsSignin"
             ? "Invalid username or password"
             : "Check Verify or Credentials",
         variant: "destructive",
