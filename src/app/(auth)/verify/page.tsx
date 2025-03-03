@@ -15,6 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
@@ -41,13 +42,6 @@ function VerifyAccount({
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof userVerifySchema>>({
-    resolver: zodResolver(userVerifySchema),
-  });
-
-  const watchFields = form.watch(["identifier", "verifyCode"]);
-  const isButtonDisabled = watchFields.some((field) => !field) || loading;
-
   const { identifier, verifyCode } = use(searchParams);
 
   useEffect(() => {
@@ -59,6 +53,17 @@ function VerifyAccount({
       form.setValue("verifyCode", Number(verifyCode));
     }
   }, [identifier, verifyCode]);
+
+  const form = useForm<z.infer<typeof userVerifySchema>>({
+    resolver: zodResolver(userVerifySchema),
+    defaultValues: {
+      identifier: identifier || "",
+      verifyCode: verifyCode || undefined,
+    },
+  });
+
+  const watchFields = form.watch(["identifier", "verifyCode"]);
+  const isButtonDisabled = watchFields.some((field) => !field) || loading;
 
   const onSubmit = async (data: z.infer<typeof userVerifySchema>) => {
     try {
@@ -90,7 +95,13 @@ function VerifyAccount({
       });
 
       if (errorMessage === "User is already verified") {
-        router.replace(`/sign-in?identifier=${data.identifier}`);
+        toast({
+          title: "Already Verified",
+          description: "Redirecting to login...",
+        });
+        setTimeout(() => {
+          router.replace(`/sign-in?identifier=${data.identifier}`);
+        }, 1500);
       }
     } finally {
       form.reset();
@@ -154,7 +165,14 @@ function VerifyAccount({
               className="w-full bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
               disabled={isButtonDisabled || loading}
             >
-              {loading ? "Verifying..." : "Submit"}
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin h-4 w-4" />
+                  Verifying...
+                </>
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </Form>
