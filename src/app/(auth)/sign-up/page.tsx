@@ -48,8 +48,22 @@ function SignUp({
   const setDebouncedUsername = useDebounceCallback(setUsername, 500);
   const [error, setError] = useState<string>("");
 
+  const { identifier } = use(searchParams);
+
+  useEffect(() => {
+    if (identifier?.includes("@")) {
+      form.setValue("email", identifier);
+    } else {
+      form.setValue("username", identifier || "");
+    }
+  }, [identifier]);
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: identifier?.includes("@") ? identifier : "",
+      username: identifier || "",
+    },
   });
 
   const watchFields = form.watch([
@@ -71,34 +85,23 @@ function SignUp({
     }
   }, [watchFields]);
 
-  const { identifier } = use(searchParams);
-
-  useEffect(() => {
-    if (identifier?.includes("@")) {
-      form.setValue("email", identifier);
-    } else {
-      form.setValue("username", identifier || "");
-    }
-  }, [identifier]);
-
   useEffect(() => {
     const checkUsernameUnique = async () => {
-      if (username) {
-        setIsCheckingUsername(true);
-        setUsernameMessage("");
-        try {
-          const response = await axios.get(
-            `/api/check-username-unique?username=${username}`
-          );
-          setUsernameMessage(response.data.message);
-        } catch (error) {
-          const axiosError = error as AxiosError<ApiResponse>;
-          setUsernameMessage(
-            axiosError.response?.data.message || "Error checking username"
-          );
-        } finally {
-          setIsCheckingUsername(false);
-        }
+      if (!username || username.length < 2) return;
+      setIsCheckingUsername(true);
+      setUsernameMessage("");
+      try {
+        const response = await axios.get(
+          `/api/check-username-unique?username=${username}`
+        );
+        setUsernameMessage(response.data.message);
+      } catch (error) {
+        const axiosError = error as AxiosError<ApiResponse>;
+        setUsernameMessage(
+          axiosError.response?.data.message || "Error checking username"
+        );
+      } finally {
+        setIsCheckingUsername(false);
       }
     };
 
@@ -174,14 +177,12 @@ function SignUp({
                     <Loader2 className="animate-spin text-gray-500 dark:text-gray-400" />
                   )}
                   <p
-                    className={`text-sm ${
-                      usernameMessage === "Username is unique"
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
+                    className={`text-sm flex items-center ${usernameMessage === "Username is unique" ? "text-green-500" : "text-red-500"}`}
                   >
+                    {usernameMessage === "Username is unique" ? "✅" : "❌"}{" "}
                     {usernameMessage}
                   </p>
+
                   <FormMessage />
                 </FormItem>
               )}
