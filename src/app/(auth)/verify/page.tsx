@@ -58,7 +58,7 @@ function VerifyAccount({
     resolver: zodResolver(userVerifySchema),
     defaultValues: {
       identifier: identifier || "",
-      verifyCode: verifyCode || undefined,
+      verifyCode: verifyCode || 0,
     },
   });
 
@@ -151,9 +151,11 @@ function VerifyAccount({
                   </FormLabel>
                   <FormControl>
                     <Input
+                      type="number"
                       placeholder="Verification Code"
                       {...field}
                       className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
