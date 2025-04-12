@@ -90,7 +90,7 @@ function VerifyForgotPassword({
 
     try {
       const response = await axios.post("/api/verify-forgot-password", {
-        verifyCode: data.verifyCode,
+        verifyCode: Number(data.verifyCode),
         identifier: data.identifier,
         password: data.password,
       });
@@ -167,6 +167,7 @@ function VerifyForgotPassword({
                   </FormLabel>
                   <FormControl>
                     <Input
+                      type="number"
                       placeholder="Enter the code sent to your email"
                       {...field}
                       className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
