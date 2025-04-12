@@ -70,7 +70,7 @@ function VerifyAccount({
       setLoading(true);
       const response = await axios.post("/api/verifyCode", {
         identifier: data.identifier,
-        verifyCode: data.verifyCode,
+        verifyCode: Number(data.verifyCode),
       });
 
       toast({
