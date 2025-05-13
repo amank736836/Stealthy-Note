@@ -55,6 +55,15 @@ const authOptions: NextAuthConfig = {
             throw new Error("No user found with this username or email");
           }
 
+          const isValid = await bcrypt.compare(
+            credentials.password as string,
+            user.password
+          );
+
+          if (!isValid) {
+            throw new Error("Invalid password");
+          }
+
           if (!user.isVerified) {
             if (user.verifyCodeExpiry < new Date()) {
               const verifyCode = Math.floor(100000 + Math.random() * 900000);
@@ -92,15 +101,6 @@ const authOptions: NextAuthConfig = {
             } else {
               throw new Error("Please verify your account before logging in");
             }
-          }
-
-          const isValid = await bcrypt.compare(
-            credentials.password as string,
-            user.password
-          );
-
-          if (!isValid) {
-            throw new Error("Invalid password");
           }
 
           return {
